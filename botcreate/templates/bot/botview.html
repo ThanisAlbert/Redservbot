@@ -1,0 +1,423 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Botomation</title>
+
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="{% static 'assets/css/Pretty-Registration-Form.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap5.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <style>
+
+        #example
+
+        #tabledata{
+        overflow: auto;
+        }
+
+        .paginate_button{
+         background-color: #4CAF50; /* Green */
+         border: none;
+         color: white;
+         padding: 5px 5px;
+         text-align: center;
+         text-decoration: none;
+         display: inline-block;
+         font-size: 12px;
+         margin:10px;
+         }
+
+        #example_paginate{
+        text-align:left
+        }
+
+        th{
+        font-size:10px;
+        }
+
+        #example_filter{
+        color:green;
+        font-size: 13px;
+        }
+
+        #example_length{
+        color:green;
+        font-size: 13px;
+        }
+
+        #example_info{
+        color:green;
+        font-size: 13px;
+        }
+
+        .odd,.even{
+        background-color:white;
+        font-size:12px;
+        }
+
+        table.dataTable tbody tr td {
+        word-wrap: normal;
+        word-break: keep-all;
+        }
+
+        table.dataTable thead tr th {
+        min-width: 70px !important;
+        padding-top: 0px !important;
+        height:20px !important;
+
+        }
+
+        .navbar{
+        background-color: #8BD182;
+        padding:0px;
+        }
+
+    </style>
+
+    <script>
+
+           $(document).ready(function() {
+    // Initialize multiselect dropdown
+
+    // Listen for change event on multiselect dropdown
+    $('#dropdownselect').on('change', function() {
+      // Get selected value(s)
+      var selectedValues = $(this).val();
+
+      // Set value of hidden element's ID to selected value(s)
+      $('#hiddenInput').val(selectedValues);
+      $('#hiddenInputmail').val(selectedValues);
+    });
+  });
+
+
+    </script>
+
+    <script>
+        $(document).ready(function(){
+          $('#fromdate').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bottom auto'
+          });
+          $('#todate').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bo#8BD182 to'
+
+          });
+          $('#enddate').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bottom auto'
+
+          });
+
+          $('#example').DataTable();
+
+        });
+
+
+        function validateForm() {
+          var fromdate = $("#fromdate").val();
+          var todate = $("#todate").val();
+          $("#fromdatenew").val(fromdate);
+          $("#todatenew").val(todate);
+          $("#fromdatemailnew").val(fromdate);
+          $("#todatemailnew").val(todate);
+          let text;
+          if (confirm("Are you sure to mail report!") == true) {
+          return true;
+          } else {
+          return false;
+          }
+          }
+
+          function validateFormnew() {
+          var fromdate = $("#fromdate").val();
+          var todate = $("#todate").val();
+          $("#fromdateview").val(fromdate);
+          $("#todateview").val(todate);
+          }
+
+          function validateFormreport() {
+          var fromdate = $("#fromdate").val();
+          var todate = $("#todate").val();
+          $("#fromdatenew").val(fromdate);
+          $("#todatenew").val(todate);
+          }
+
+         $(document).ready(function() {
+
+         if (showModal) {
+         $('#staticBackdrop').modal('show');
+         }
+
+         });
+
+
+    </script>
+
+</head>
+
+<body><div clas="row" style="height:0px;">
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a href="{% url 'bot:index' %}" class="navbar-brand"><img src="{% static 'assets/img/Redserv.png' %}" width="100px" height="50px"></img></a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+                <a href="{% url 'bot:index' %}" class="nav-item nav-link active">Home</a>
+                <a href="{% url 'bot:botviewquery' %}" class="nav-item nav-link active">Botview</a>
+                 <a href="{% url 'bot:chartview' %}" class="nav-item nav-link active" tabindex="-1">Chartview</a>
+            </div>
+            <div class="navbar-nav ms-auto">
+                <a href="#" class="nav-item nav-link"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+</div>
+<div class="row register-form" >
+
+</div>
+
+<div style="margin-top:100px;"></div>
+
+<div id="tabledata"  style="width:1250px;margin-top:15px;">
+
+<div class="row">
+
+  <div class="col-md-1" style="font-size:12px;margin-top:5px;padding-left:30px;"> From Date:</div>
+  <div class="col-md-1" style="margin:5px">
+  <div class="input-column"><input class="form-control" type="text" id="fromdate" name="fromdate" style="width:125px;height:25px;font-size:12px;"></div>
+  </div>
+
+  <div class="col-md-1" style="margin-left:30px;margin-top:5px;font-size:12px;padding-left:50px;"> To Date:</div>
+  <div class="col-md-1" style="margin:5px">
+  <div class="input-column"><input class="form-control" type="text" id="todate" name="todate" style="width:125px;height:25px;font-size:12px;"></div>
+  </div>
+
+  <div class="col-md-3 offset-md-1">
+      <form id="dropdownform" onsubmit="return validateFormnew()" class="custom-form" style=""  method="POST" action="{% url 'bot:botviewquery' %}" >
+        {% csrf_token %}
+
+        <div class ="row">
+
+        <div class="col-md-7">
+        <input type="hidden"  name="fromdateview" id="fromdateview">
+        <input type="hidden" name="todateview" id="todateview">
+        <select  class="form-select" id="dropdownselect" name="dropdownselect" style="width:175px;height:75px;font-size:12px" multiple>
+             <option value="All" style="font-size:12px" >All</option>
+             <option value="Completed" style="font-size:12px" >Completed</option>
+             <option value="Cancelled" style="font-size:12px" >Cancelled</option>
+             <option value="User Testing & Dev Enhancement" style="font-size:12px" >User Testing & Dev Enhancement</option>
+             <option value="Under User Testing" style="font-size:12px" >Under User Testing</option>
+             <option value="TM TO BE DONE" style="font-size:12px" >TM TO BE DONE</option>
+             <option value="Devolopment In Progress" style="font-size:12px" >Devolopment In Progress</option>
+             <option value="Bot No.Generated" style="font-size:12px">Bot No.Generated</option>
+        </select>
+        </div>
+
+        <div class="col-md-5">
+          <div class="row">
+          <div class="col-md-5 offset-md-7">
+          <input type="submit" value="View" style="font-size:12px;margin-left:10px;">
+          </div>
+          </div>
+        </div>
+
+        </div>
+
+      </form>
+  </div>
+  <div class="col-md-1">
+     <form id="downloadreport" onsubmit="return validateFormreport()"   class="custom-form" style=""  method="POST" action="{% url 'bot:downloadreport' %}" >
+        {% csrf_token %}
+        <input type="hidden"  name="fromdatenew" id="fromdatenew">
+        <input type="hidden" name="todatenew" id="todatenew">
+        <input type="hidden" id="hiddenInput" name="hiddenInput">
+        <input type="submit" value="Downloadreport" style="font-size:12px;">
+     </form>
+  </div>
+
+  <div class="col-md-1">
+
+      <form id="mailreport" onsubmit="return validateForm()" class="custom-form" style=""  method="POST" action="{% url 'bot:mailreport' %}" >
+        {% csrf_token %}
+        <input type="hidden"  name="fromdatemailnew" id="fromdatemailnew">
+        <input type="hidden" name="todatemailnew" id="todatemailnew">
+        <input type="hidden" id="hiddenInputmail" name="hiddenInputmail">
+        <input type="submit" value="Mailreport" style="font-size:12px;">
+      </form>
+
+  </div>
+
+  <div class="col-md-1">
+      {% if mailsent == "sent" %}
+           <div style="margin-top:0px;padding-top:5px;color:red;font-size:12px;">Report Sent !!</div>
+      {% endif %}
+  </div>
+
+</div>
+
+<br>
+<table id="example"  class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th style="min-width: 30px">Bot No.</th>
+                <th style="min-width: 150px">Bot Name</th>
+                <!--<th>Process</th>-->
+                <th>Subprocess</th>
+                <th style="min-width: 150px">Spoc Name</th>
+               <!-- <th style="min-width: 150px">Requestor Mail Id</th>-->
+               <!-- <th style="min-width: 150px">Teamlead Mail Id</th>-->
+               <!-- <th style="min-width: 150px">Manager Mail Id</th>-->
+                <th style="min-width: 150px">Developer Mail Id</th>
+               <!-- <th style="min-width: 150px">Technology Used</th>-->
+                <th style="min-width: 80px">Creation Date</th>
+                <th style="min-width: 80px">Start Date</th>
+                <th style="min-width: 80px">End Date</th>
+                <th style="min-width: 80px">Enhancement Start Date</th>
+                <th style="min-width: 80px">Enhancement End Date</th>
+                <th style="min-width: 200px">Bot Status</th>
+                <th style="min-width: 200px">Downloads</th>
+                <!--
+                <th>Manual Time Spend</th>
+                <th>Automation Time Spend</th>
+                <th>Total Time Saved</th>
+                <th>Total Day Saved</th>
+                <th>Kaizen Award Status</th>
+                <th>Kaizen Award Year</th>
+                <th style="min-width: 200px">Bot Desc</th>
+                <th style="min-width: 200px">Mail Recipient</th>
+                <th style="min-width: 150px">Mail Notes</th>
+                <th>Mail Send</th>
+                -->
+            </tr>
+        </thead>
+        <tbody>
+
+
+            {% for Bot in Bots|dictsort:"Botname" %}
+            <tr>
+                <td>
+                  {{Bot.Botno}}
+                </td>
+                <td>{{Bot.Botname}}</td>
+                <!--<td>{{Bot.Process}}</td>-->
+                <td>{{Bot.Subprocess}}</td>
+                <td>{{Bot.Spocname}}</td>
+                <!--<td>{{Bot.Requestormail}}</td>-->
+                <!--
+                <td>{{Bot.Teamleadmail}}</td>
+                <td>{{Bot.Managermail}}</td>
+                -->
+                <td>{{Bot.Developermail}}</td>
+                <!--
+                <td>{{Bot.Technologyused}}</td>
+                -->
+                <td>{{Bot.Creationdate}}</td>
+                <td>{{Bot.Startdate}}</td>
+                <td>{{Bot.Enddate}}</td>
+
+                <td>{{Bot.enhancestartdate}}</td>
+
+                <td>{{Bot.enhanceenddate}}</td>
+
+
+                <td>{{Bot.Botstatus}}</td>
+                <td>
+                    <a href="{% url 'bot:botview_getfilenameslist' param=Bot.Botno %}">View</a>
+                    <a href="{% url 'bot:botview_getfile' param=Bot.Botno %}">Download</a>
+                </td>
+                <!--
+                <td>{{Bot.Manualtimespend}}</td>
+                <td>{{Bot.Automationtimespend}}</td>
+                <td>{{Bot.Totaltimesaved}}</td>
+                <td>{{Bot.Totaldaysaved}}</td>
+                <td>{{Bot.Kaizenawardstatus}}</td>
+                <td>{{Bot.Kaizenawardyear}}</td>
+                <td>{{Bot.Botdesc}}</td>
+                <td>{{Bot.Mailrecipient}}</td>
+                <td>{{Bot.Mailnotes}}</td>
+                <td>{{Bot.Mailsend}}</td>
+                -->
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+<div class="row" style="background-color:#8BD182;height:50px">
+
+</div>
+
+
+{% if show_modal %}
+  <script>
+    var showModal = true;
+  </script>
+{% else %}
+  <script>
+    var showModal = false;
+  </script>
+{% endif %}
+
+
+<!-- Button trigger modal -->
+
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{botno}}-{{botname}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <i class="fa fa-file" style="font-size:20px;color:green">Files</i>
+       <h4>------</h4>
+       {% for file in files %}
+       <p>{{ file }}</p>
+       {% endfor %}
+
+       <i class="fa fa-folder" style="font-size:20px;color:red">Folders</i>
+       <h4>-------</h4>
+       {% for folder in folders %}
+       <p>{{ folder }}</p>
+       {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+  
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+
+
+</body>
+
+</html>

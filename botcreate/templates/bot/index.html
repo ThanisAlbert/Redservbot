@@ -1,0 +1,470 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Botomation</title>
+
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="{% static 'assets/css/Pretty-Registration-Form.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap5.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <style>
+
+        #example
+
+        #tabledata{
+        overflow: auto;
+        }
+
+        .paginate_button{
+         background-color: #4CAF50; /* Green */
+         border: none;
+         color: white;
+         padding: 5px 5px;
+         text-align: center;
+         text-decoration: none;
+         display: inline-block;
+         font-size: 12px;
+         margin:10px;
+         }
+
+        #example_paginate{
+        text-align:left
+        }
+
+        th{
+        font-size:10px;
+        }
+
+        #example_filter{
+        color:green;
+        font-size: 13px;
+        }
+
+        #example_length{
+        color:green;
+        font-size: 13px;
+        }
+
+        #example_info{
+        color:green;
+        font-size: 13px;
+        }
+
+        .odd,.even{
+        background-color:white;
+        font-size:12px;
+        }
+
+        table.dataTable tbody tr td {
+        word-wrap: normal;
+        word-break: keep-all;
+        }
+
+        table.dataTable thead tr th {
+        min-width: 80px !important;
+        padding-top: 0px !important;
+        height:20px !important;
+
+        }
+
+        .navbar{
+        background-color: #8BD182;
+        padding:0px;
+        }
+
+    </style>
+
+    <script>
+        $(document).ready(function(){
+          $('#creationdate').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bottom auto'
+          });
+          $('#startdate').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bo#8BD182 to'
+
+          });
+          $('#enddate').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bottom auto'
+
+          });
+          $('#enhancestart').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bo#8BD182 to'
+          });
+          $('#enhanceend').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bo#8BD182 to'
+          });
+
+          $('#example').DataTable({
+          "aaSorting": []
+          });
+        });
+
+
+
+ $(document).ready(function(){
+
+  $("form button[type='submit']").click(function(e) {
+
+  var buttonClicked = $(this).attr("name");
+
+  var requestorvar = $("#requestormail").val();
+  var teamleadmailvar =$("#teamleadmail").val();
+  var managermailvar =$("#managermail").val();
+  var developermailvar =$("#developermail").val();
+
+  if ((requestorvar=="") && (buttonClicked==="submit"))
+   {
+     alert("Please enter requestor mail")
+     e.preventDefault();
+   }
+
+   if((requestorvar.indexOf("@") === -1)&& (buttonClicked==="submit"))
+    {
+      alert("Please enter valid requestor mail id")
+      e.preventDefault();
+    }
+
+   if ((teamleadmailvar=="") && (buttonClicked==="submit"))
+   {
+     alert("Please enter teamlead mail")
+     e.preventDefault();
+   }
+
+   if((teamleadmailvar.indexOf("@") === -1) && (buttonClicked==="submit"))
+   {
+    alert("Please enter valid teamlead mail id")
+    e.preventDefault();
+   }
+
+   if ((managermailvar=="") && (buttonClicked==="submit"))
+   {
+     alert("Please enter manager mail")
+     e.preventDefault();
+   }
+
+   if((managermailvar.indexOf("@") === -1) && (buttonClicked==="submit"))
+   {
+    alert("Please enter valid manager mail id")
+    e.preventDefault();
+   }
+
+   if ((developermailvar=="") && (buttonClicked==="submit"))
+   {
+     alert("Please enter developer mail")
+     e.preventDefault();
+   }
+
+   if((developermailvar.indexOf("@") === -1) && (buttonClicked==="submit"))
+   {
+     alert("Please enter valid developer id")
+     e.preventDefault();
+   }
+
+});
+
+});
+
+
+         $(document).ready(function() {
+
+         if (showModal) {
+         $('#staticBackdrop').modal('show');
+         }
+
+         });
+
+
+    </script>
+
+</head>
+
+<body><div clas="row" style="height:0px;">
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a href="{% url 'bot:index' %}" class="navbar-brand"><img src="{% static 'assets/img/Redserv.png' %}" width="100px" height="50px"></img></a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+                <a href="{% url 'bot:index' %}" class="nav-item nav-link active">Home</a>
+                <a href="{% url 'bot:botviewquery' %}" class="nav-item nav-link active">Botview</a>
+                <a href="{% url 'bot:chartview' %}" class="nav-item nav-link active" tabindex="-1">Chartview</a>
+            </div>
+            <div class="navbar-nav ms-auto">
+                <a href="#" class="nav-item nav-link"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+</div>
+<div class="row register-form" >
+
+
+  <form  enctype="multipart/form-data" name="bot" class="custom-form" style="padding-bottom:0px;background-color:#F8F8F8;padding-top:50px;padding-left:0px;padding-right:0px;margin-top:25px;margin-left:0px;margin-right:0px;margin-bottom:0px;"  method="POST" action="{% url 'bot:create' %}" style="margin:0px;padding-top:5px;padding-bottom:0px">
+            {% csrf_token %}
+            <div class="row form-group" style="margin:5px" >
+
+               {% if Botcreateerror == "Bot already exist" %}
+                <div style="margin-top:0px;margin-bottom:10px;color:red">Bot already exists</div>
+               {% endif %}
+               {% if Botcreateerror == "FileNotFound" %}
+                <div style="margin-top:0px;margin-bottom:10px;color:red">File Not Found</div>
+               {% endif %}
+               {% if Botcreateerror == "Bot Not Found" %}
+                <div style="margin-top:0px;margin-bottom:10px;color:red">Bot Not Found</div>
+               {% endif %}
+               {% if Botcreateerror == "Please click search button" %}
+                <div style="margin-top:0px;margin-bottom:10px;color:red">Please click search button</div>
+               {% endif %}
+
+                <div class="col-sm-1 label-column" style="padding-right:50px;"><label class="col-form-label" style="font-size:12px;" >Bot No.</label></div>
+                <div class="col-sm-1 input-column" style=""><input class="form-control" style="width:125px;height:15px;font-size:12px;" name="botno" id="botno" type="text" value="{{newbotno}}" /></div>
+                <div class="col-sm-2 label-column" style="padding-right:55px;"><label class="col-form-label"  style="font-size:12px;">Bot Name</label></div>
+                <div class="col-sm-1 input-column" style=""><input class="form-control" name="botname" id="botname" type="text" style="width:125px;height:15px;font-size:12px;" /></div>
+                <div class="col-sm-2 label-column" style="padding-right:82px;"><label class="col-form-label" style="font-size:12px;padding-right:2px;">Process</label></div>
+                <div class="col-sm-1 input-column" style="text-align: left;">
+                   <select class="form-select" name="process" style="width:125px;height:27px;font-size:12px">
+                       <option value="" selected></option>
+                       {% for process in process %}
+                       <option value="{{process.processname}}" style="font-size:12px">{{process.processname}}</option>
+                       {% endfor %}
+                   </select>
+                </div>
+                <div class="col-sm-2 label-column" style="" ><label class="col-form-label" style="font-size:12px;padding-right:68px;">Subprocess</label></div>
+                <div class="col-sm-2 input-column" style="">
+                   <select class="form-select" name="subprocess" style="width:125px;height:27px;font-size:12px;">
+                       <option value="" selected></option>
+                       {% for subprocess in subprocess %}
+                       <option value="{{subprocess.subprocessname}}" style="font-size:12px">{{subprocess.subprocessname}}</option>
+                       {% endfor %}
+                   </select>
+                </div>
+            </div>
+            <div class="row form-group" style="margin:5px">
+                <div class="col-sm-1 label-column" style="text-align: left;"><label class="col-form-label" style="font-size:12px">Spoc Name</label></div>
+                <div class="col-sm-1 input-column" ><input class="form-control" name="spocname"   style="width:125px;height:15px;font-size:12px;" type="text" /></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px">Requestor Mail Id</label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" name="requestormail" id="requestormail"  style="width:125px;height:15px;font-size:12px;" type="text" /></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:25px;" >Teamlead Mail Id</label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" name="teamleadmail"  id="teamleadmail" type="text"  style="width:125px;height:15px;font-size:12px;"/></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:47px;" >Manager Mail Id </label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" name="managermail" id="managermail" type="text" style="width:125px;height:15px;font-size:12px;" /></div>
+            </div>
+            <div class="row form-group" style="margin:5px">
+                <div class="col-sm-1 label-column" style="text-align: left"><label class="col-form-label" style="font-size:11px" >Developer Mail</label></div>
+                <div class="col-sm-1 input-column">
+                    <select class="form-select" name="developermail" id="developermail" style="width:125px;height:27px;font-size:12px;">
+                       <option value="" selected></option>
+                       {% for devmail in developermail %}
+                       <option value="{{devmail.Developermail}}" style="font-size:12px">{{devmail.Developermail}}</option>
+                       {% endfor %}
+                   </select>
+                </div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:2px;">Technology Used </label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" type="text" name="technology" style="width:125px;height:15px;font-size:12px;" /></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:40px;">Creation Date </label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" type="text" id="creationdate" name="creationdate" style="width:125px;height:15px;font-size:12px;" autocomplete="off"></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:80px;" >Start Date</label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" type="text" id="startdate" name="startdate" style="width:125px;height:15px;font-size:12px;" autocomplete="off"></div>
+            </div>
+            <div class="row form-group" style="margin:5px">
+                <div class="col-sm-1 label-column" style="text-align: left"><label class="col-form-label" style="font-size:12px" >End Date </label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" type="text" id="enddate" name="enddate" style="width:125px;height:15px;font-size:12px;" autocomplete="off"></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:40px;">Bot Status</label></div>
+                <div class="col-sm-1 input-column">
+                    <select class="form-select" name="botstatus" style="width:125px;height:27px;font-size:12px">
+                    <option value="" selected></option>
+                       {% for botstatus in botstatus %}
+                       <option value="{{botstatus.botstatus}}" style="font-size:12px">{{botstatus.botstatus}}</option>
+                       {% endfor %}
+                   </select>
+                </div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:5px;">Manual Time Spend </label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" type="text" name="manualtime"  style="width:125px;height:15px;font-size:12px"/></div>
+                 <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;">Automation Time Spend </label></div>
+                <div class="col-sm-2 input-column"><input class="form-control" type="text" name="automationtime" style="width:125px;height:15px;font-size:12px" /></div>
+            </div>
+            <div class="row form-group" style="margin:0px">
+                <div class="col-sm-1 label-column"><label class="col-form-label" style="font-size:12px;padding-left:4px;">Total_Time_Save</label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" type="text" name="totaltime" style="width:125px;height:15px;font-size:12px;margin-left:5px;" /></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:8px;" >Total Day Saved</label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" type="text" name="totalday" style="width:125px;height:15px;font-size:12px"/></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px">Kaizen Award Status</label></div>
+                <div class="col-sm-1 input-column">
+                    <select class="form-select" name="kaizenstatus" style="width:125px;height:27px;font-size:12px">
+                    <option value="" selected></option>
+                       {% for status in kaizenstatus %}
+                       <option value="{{status.Kaizenstatus}}" style="font-size:12px">{{status.Kaizenstatus}}</option>
+                       {% endfor %}
+                   </select>
+                </div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:34px;">Kaizen Award Year</label></div>
+                <div class="col-sm-2 input-column">
+                   <select class="form-select" name="kaizenyear" style="width:125px;height:27px;font-size:12px">
+                    <option value="" selected></option>
+                       {% for kaizenawarded in kaizenawardedyear %}
+                       <option value="{{kaizenawarded.Kaizenawardedyear}}" style="font-size:12px">{{kaizenawarded.Kaizenawardedyear}}</option>
+                       {% endfor %}
+                   </select>
+                </div>
+            </div>
+             <div class="row form-group" style="margin:5px">
+                <div class="col-sm-1 label-column" style="text-align: left"><label class="col-form-label" style="font-size:12px" >Bot Desc</label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" style="width:125px;height:15px;font-size:12px" name="botdesc" type="text" /></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:19px;">Mail Recipient </label></div>
+                <div class="col-sm-1 input-column">
+                    <input class="form-control" style="width:125px;height:15px;font-size:12px" name="mailrecipient" type="text" />
+                    <small class="text-muted" style="font-size:10px;">Please use ; to seperate mail</small>
+                </div>
+                <div class="col-sm-2 label-column" ><label class="col-form-label" style="font-size:12px;padding-right:7px;" >Enhance Start Date</label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" style="width:125px;height:15px;font-size:12px" id="enhancestart"  name="enhancestart" type="text" autocomplete="off"/></div>
+                <div class="col-sm-2 label-column" ><label class="col-form-label" style="font-size:12px;padding-right:30px;" >Enhance End Date</label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" style="width:125px;height:15px;font-size:12px" id="enhanceend"  name="enhanceend" type="text" autocomplete="off" /></div>
+             </div>
+            <div class="row form-group" style="margin:0px">
+              <div class="col-sm-1 label-column" style="font-size:12px;text-align:left;margin-left:5px;">
+              File Upload:
+              </div>
+              <div class="col-sm-1 label-column">
+              <input type="file" name="myfile" multiple>
+              </div>
+            </div>
+
+            <div class="row form-group" style="margin:0px">
+            <div class="col-sm-1 offset-md-4 label-column"><button style="height:30px;width:100px;padding:0px;margin:10px;" class="btn btn-light submit-button" type="submit" name="search">Search</button></div>
+            <div class="col-sm-1 label-column"><button style="height:30px;width:100px;padding:0px;margin:10px;" class="btn btn-light submit-button" type="submit" name="submit">Submit</button></div>
+            <div class="col-sm-1 label-column"><button style="height:30px;width:100px;padding:0px;margin:10px;" class="btn btn-light submit-button" type="submit" name="update">Update</button></div>
+            </div>
+
+        </form>
+
+
+</div>
+
+<div id="tabledata"  style="width:1250px;margin-top:15px;">
+<div class="row">
+    <div class="col-md-4 offset-md-5"><i style="font-size:10px;"><b>Status:</b> Bot No.Generated, Devolopment In Progress, Under User Testing</i></div>
+</div>
+<table id="example"  class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th style="min-width: 40px">Bot No.</th>
+                <th style="min-width: 150px">Bot Name</th>
+                <th>Subprocess</th>
+                <th style="min-width: 150px">Spoc Name</th>
+                <th style="min-width: 150px">Developer Mail Id</th>
+                <!--
+                <th style="min-width: 80px">Creation Date</th>
+                -->
+                <th style="min-width: 80px">Start Date</th>
+                <th style="min-width: 80px">End Date</th>
+                <th style="min-width: 200px">Bot Status</th>
+                <th style="min-width: 200px">Downloads</th>
+            </tr>
+        </thead>
+        <tbody>
+
+
+            {% for Bot in Bots %}
+            <tr>
+                <td>{{Bot.Botno}}</td>
+                <td>{{Bot.Botname}}</td>
+                <td>{{Bot.Subprocess}}</td>
+                <td>{{Bot.Spocname}}</td>
+                <td>{{Bot.Developermail}}</td>
+                <!--
+                <td>{{Bot.Creationdate}}</td>
+                -->
+                <td>{{Bot.Startdate}}</td>
+                <td>{{Bot.Enddate}}</td>
+                <td>{{Bot.Botstatus}}</td>
+                <td>
+                    <a href="{% url 'bot:getfilenameslist' param=Bot.Botno %}">View</a>
+                    <a href="{% url 'bot:getfile' param=Bot.Botno %}">Download</a>
+                </td>
+
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+
+<div class="row" style="background-color:#8BD182;height:50px">
+
+</div>
+
+
+{% if show_modal %}
+  <script>
+    var showModal = true;
+  </script>
+{% else %}
+  <script>
+    var showModal = false;
+  </script>
+{% endif %}
+
+
+<!-- Button trigger modal -->
+
+
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">{{botno}}-{{botname}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       <i class="fa fa-file" style="font-size:20px;color:green">Files</i>
+       <h4>------</h4>
+       {% for file in files %}
+       <p>{{ file }}</p>
+       {% endfor %}
+
+       <i class="fa fa-folder" style="font-size:20px;color:red">Folders</i>
+       <h4>-------</h4>
+       {% for folder in folders %}
+       <p>{{ folder }}</p>
+       {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+  
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+
+
+</body>
+
+</html>

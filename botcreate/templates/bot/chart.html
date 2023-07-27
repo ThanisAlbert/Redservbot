@@ -1,0 +1,277 @@
+<!-- index.html -->
+{% load static %}
+<html>
+<head>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Botomation</title>
+
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="{% static 'assets/css/Pretty-Registration-Form.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap5.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <style>
+
+        #example
+
+        #tabledata{
+        overflow: auto;
+        }
+
+        .paginate_button{
+         background-color: #4CAF50; /* Green */
+         border: none;
+         color: white;
+         padding: 5px 5px;
+         text-align: center;
+         text-decoration: none;
+         display: inline-block;
+         font-size: 12px;
+         margin:10px;
+         }
+
+        #example_paginate{
+        text-align:left
+        }
+
+        th{
+        font-size:10px;
+        }
+
+        #example_filter{
+        color:green;
+        font-size: 13px;
+        }
+
+        #example_length{
+        color:green;
+        font-size: 13px;
+        }
+
+        #example_info{
+        color:green;
+        font-size: 13px;
+        }
+
+        .odd,.even{
+        background-color:white;
+        font-size:12px;
+        }
+
+        table.dataTable tbody tr td {
+        word-wrap: normal;
+        word-break: keep-all;
+        }
+
+        table.dataTable thead tr th {
+        min-width: 80px !important;
+        padding-top: 0px !important;
+        height:20px !important;
+
+        }
+
+        .navbar{
+        background-color: #8BD182;
+        padding:0px;
+        }
+
+    </style>
+
+<script>
+
+    $(document).ready(function(){
+
+         $('#fromdate').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bottom auto'
+          });
+          $('#todate').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bo#8BD182 to'
+
+          });
+          $('#enddate').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bottom auto'
+
+          });
+
+          $('#example').DataTable();
+
+
+        });
+
+
+     function validateForm()
+     {
+
+          var fromdate = $("#fromdate").val();
+          var todate = $("#todate").val();
+          $("#fromdatenew").val(fromdate);
+          $("#todatenew").val(todate);
+          document.getElementById('chart').submit();
+
+     }
+
+</script>
+
+<script>
+
+           $(document).ready(function() {
+    // Initialize multiselect dropdown
+
+    // Listen for change event on multiselect dropdown
+    $('#dropdownselect').on('change', function() {
+      // Get selected value(s)
+      var selectedValues = $(this).val();
+
+      // Set value of hidden element's ID to selected value(s)
+      $('#hiddenInput').val(selectedValues);
+
+    });
+  });
+
+
+ </script>
+
+
+<script>
+    window.onload = function () {
+
+        if("{{chartview}}"=="bar"){
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+          animationEnabled: true,
+          exportEnabled: true,
+          title:{
+            text: "Bot Status",
+            fontFamily: "Tahoma"
+          },
+          axisY: {
+            title: ""
+          },
+          data: [{
+            type: "column",
+            indexLabel:"{y}",
+            yValueFormatString: "#,##0",
+            dataPoints: {{ datapoints|safe }}
+          }]
+        });
+
+        }
+
+        if("{{chartview}}"=="pie"){
+              var chart = new CanvasJS.Chart("chartContainer", {
+              exportEnabled: true,
+              animationEnabled: true,
+              title: {
+                text: "BotStatus"
+              },
+              data: [{
+                type: "pie",
+                legendText: "{label}",
+                yValueFormatString: "#,###\"\"",
+                indexLabel: "{label} ({y})",
+                dataPoints: {{ bot_data|safe }}
+              }]
+            });
+        }
+
+        chart.render();
+    }
+
+
+</script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a href="{% url 'bot:index' %}" class="navbar-brand"><img src="{% static 'assets/img/Redserv.png' %}" width="100px" height="50px"></img></a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+                <a href="{% url 'bot:index' %}" class="nav-item nav-link active">Home</a>
+                <a href="{% url 'bot:botviewquery' %}" class="nav-item nav-link active">Botview</a>
+                <a href="{% url 'bot:chartview' %}" class="nav-item nav-link active" tabindex="-1">Chartview</a>
+            </div>
+            <div class="navbar-nav ms-auto">
+                <a href="#" class="nav-item nav-link"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+   <div class="row">
+
+         <div class="col-md-1" style="font-size:12px;margin-top:5px;padding-left:30px;"> From Date:</div>
+         <div class="col-md-1" style="margin:5px">
+         <div class="input-column"><input class="form-control" type="text" id="fromdate" name="fromdate" style="width:125px;height:25px;font-size:12px;"></div>
+         </div>
+
+         <div class="col-md-1" style="margin-left:30px;margin-top:5px;font-size:12px;padding-left:50px;"> To Date:</div>
+         <div class="col-md-1" style="margin:5px">
+         <div class="input-column"><input class="form-control" type="text" id="todate" name="todate" style="width:125px;height:25px;font-size:12px;"></div>
+         </div>
+
+
+       <div class="col-md-2 offset-md-1">
+        <select  class="form-select" id="dropdownselect" name="dropdownselect" style="width:175px;height:75px;font-size:12px" multiple>
+             <option value="All" style="font-size:12px" >All</option>
+             <option value="Completed" style="font-size:12px" >Completed</option>
+             <option value="Cancelled" style="font-size:12px" >Cancelled</option>
+             <option value="User Testing & Dev Enhancement" style="font-size:12px" >User Testing & Dev Enhancement</option>
+             <option value="Under User Testing" style="font-size:12px" >Under User Testing</option>
+             <option value="TM TO BE DONE" style="font-size:12px" >TM TO BE DONE</option>
+             <option value="Devolopment In Progress" style="font-size:12px" >Devolopment In Progress</option>
+             <option value="Bot No.Generated" style="font-size:12px">Bot No.Generated</option>
+        </select>
+        </div>
+
+
+       <div class="col-md-2">
+         <form id="chart" class="custom-form" style=""  method="POST" action="{% url 'bot:changechartview' %}" >
+         {% csrf_token %}
+          <input type="hidden"  name="fromdatenew" id="fromdatenew">
+          <input type="hidden" name="todatenew" id="todatenew">
+          <input type="hidden" id="hiddenInput" name="hiddenInput">
+         <select onchange="return validateForm()"  class="form-select" id="chartselect" name="chartselect" style="width:175px;height:27px;font-size:12px">
+           <option value="select" style="font-size:12px" selected>Select Chart</option>
+           <option value="pie" style="font-size:12px" >Pie</option>
+           <option value="bar" style="font-size:12px" >Bar</option>
+         </select>
+         </form>
+       </div>
+
+
+    </div>
+
+    <div class="row">
+    <div class="col-md-10" id="chartContainer" style="width:80%; height: 360px;">
+    </div>
+    <div class="col-md-2">Total Bots: {{Totalcount}}</div>
+    </div>
+
+    <div class="row">
+    <div class="col-md-10" id="chartContainer2" style="width:80%; height: 360px;">
+    </div>
+
+    </div>
+
+<script src="{% static 'assets/js/canvasjs.min.js' %}"></script>
+
+
+</body>
+</html>
