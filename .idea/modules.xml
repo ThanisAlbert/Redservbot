@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$USER_HOME$/PycharmProjects/Databaseconnection/.idea/Databaseconnection.iml" filepath="$USER_HOME$/PycharmProjects/Databaseconnection/.idea/Databaseconnection.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../web/Helloworld/.idea/Helloworld.iml" filepath="$PROJECT_DIR$/../../../web/Helloworld/.idea/Helloworld.iml" />
+      <module fileurl="file://$USER_HOME$/PycharmProjects/Ocr/.idea/Ocr.iml" filepath="$USER_HOME$/PycharmProjects/Ocr/.idea/Ocr.iml" />
+      <module fileurl="file://$USER_HOME$/PycharmProjects/Red Bot 617 Cisco/.idea/Red Bot 617 Cisco.iml" filepath="$USER_HOME$/PycharmProjects/Red Bot 617 Cisco/.idea/Red Bot 617 Cisco.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../Redserv/.idea/Redserv.iml" filepath="$PROJECT_DIR$/../Redserv/.idea/Redserv.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Redservbot.iml" filepath="$PROJECT_DIR$/.idea/Redservbot.iml" />
+      <module fileurl="file://$USER_HOME$/PycharmProjects/db/.idea/db.iml" filepath="$USER_HOME$/PycharmProjects/db/.idea/db.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../Redservcommitee/redservcommitee/.idea/redservcommitee.iml" filepath="$PROJECT_DIR$/../../Redservcommitee/redservcommitee/.idea/redservcommitee.iml" />
+    </modules>
+  </component>
+</project>

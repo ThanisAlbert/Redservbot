@@ -1,0 +1,122 @@
+
+ Bots = Bot.objects.filter(Q(Botstatus='Devolopment In Progress') | Q(Botstatus='Under User Testing') | Q(
+        Botstatus='Bot No.Generated')).order_by('-Botno')
+
+    '''
+    if Bots.exists():
+
+        table_row_data = ""
+
+        for obj in Bots:
+            Botno = obj.Botno
+            Botname = obj.Botname
+            Process = obj.Process
+            Subprocess = obj.Subprocess
+            Spocname = obj.Spocname
+            Startdate = obj.Startdate
+            Enddate = obj.Enddate
+            enhancestartdate = obj.enhancestartdate
+            enhanceenddate = obj.enhanceenddate
+            Botstatus = obj.Botstatus
+
+
+            table_row_data = table_row_data + "<tr><td>" + str(employee_id) + "</td><td>" + str(
+                employee_name) + "</td><td>" + str(employee_gender) + "</td><td>" + str(
+                employee_process) + "</td><td>" + str(employee_teamlead) + "</td><td>" + str(
+                employee_location) + "</td><td>" + str(employee_info) + "</td><td>" + str(
+                employee_time) + "</td><td>" + str(employee_food) + "</td><td>" + str(employee_cab) + "</td><td>" + str(
+                employee_escort) + "</td></tr>"
+
+          '''
+
+  done = 0
+
+        while done == 0:
+            try:
+                msg = MIMEMultipart()
+                msg['From'] = 'botomation@redingtongroup.com'
+
+                to_addr = []
+                to_addr.append("thanis.albert@redingtongroup.com")
+                # to_addr.append("adminCOE.India@redingtongroup.com")
+                # adminCOE.India@redingtongroup.com
+
+                cc_addr = []
+                # cc_addr.append("thanis.a@redingtongroup.com")
+                # cc_addr.append("satyanarayana.p@redingtongroup.com")
+
+                bc_addr = []
+                bc_addr.append("thanis.albert@redingtongroup.com")
+
+                msg['To'] = ', '.join(to_addr)
+                msg['Cc'] = ', '.join(cc_addr)
+                msg['Bcc'] = ', '.join(bc_addr)
+
+                recipients = to_addr + bc_addr + cc_addr
+
+                msg['Subject'] = 'Food/Cab Request - ' + datetime.strftime(datetime.now(), "%d/%m/%Y")
+
+                html = '''
+                                                               <html>
+                                                               <style>
+                                                                 table,tr,td {
+                                                                 border: 1px solid black;
+                                                                 border-collapse:collapse;
+                                                                 }
+                                                                 span{
+                                                                 color:red;
+                                                                 }
+                                                               </style>
+                                                               <body>
+
+                                                               Dear Admin<br><br>''' + str(message) + '''<br><br>
+
+                                                               <table>
+                                                                 <tr>
+                                                                   <td style="background-color:#F0F0F0;"><b>Employee Id</b></td>
+                                                                   <td style="background-color:#F0F0F0;"><b>Employee Name</b></td>
+                                                                   <td style="background-color:#F0F0F0;"><b>Gender</b></td>
+                                                                   <td style="background-color:#F0F0F0;"><b>Process</b></td>
+                                                                   <td style="background-color:#F0F0F0;"><b>Teamlead</b></td>
+                                                                   <td style="background-color:#F0F0F0;"><b>Location</b></td>
+                                                                   <td style="background-color:#F0F0F0;"><b>Info</b></td>
+                                                                   <td style="background-color:#F0F0F0;"><b>Time</b></td>
+                                                                   <td style="background-color:#F0F0F0;"><b>Food</b></td>
+                                                                   <td style="background-color:#F0F0F0;"><b>Cab</b></td>
+                                                                   <td style="background-color:#F0F0F0;"><b>Escort</b></td>
+                                                                 </tr>
+                                                                 ''' + table_row_data + '''
+                                                               </table>
+                                                               <br>
+                                                               <a href ="http://172.24.3.13:90/food/admin/Food/food/">Please click here to approve</a>
+                                                               <br><br>This is an automatically generated email. <br><br>
+                                                               Thanks & Regards,<br>
+                                                               Admin Team - RGS
+                                                               </body>
+                                                               </html>
+                                                               '''
+
+                msg.attach(MIMEText(html, 'html'))
+                smtp_server = 'smtp.office365.com'
+                smtp_port = 587
+                smtp_username = 'botomation@redingtongroup.com'
+                smtp_password = '!Redb0t23#'
+                smtp_conn = smtplib.SMTP(smtp_server, smtp_port)
+                smtp_conn.starttls()
+                smtp_conn.login(smtp_username, smtp_password)
+                smtp_conn.sendmail(msg['From'], recipients, msg.as_string())
+
+                logger.info("cab/food requests presents. Mail sent to admin")
+
+                smtp_conn.quit()
+                done = 1
+            except Exception as e:
+                logger.info("Admin mail error occured. Level high " + str(e))
+                pass
+
+        return "Notificationdone"
+
+    else:
+
+        logger.info("No Mail sent to admin")
+        return "No food cab data presents"

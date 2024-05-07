@@ -1,0 +1,441 @@
+<!-- index.html -->
+{% load static %}
+<html>
+<head>
+<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Automation</title>
+
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="{% static 'assets/css/Pretty-Registration-Form.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap5.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <style>
+
+        #example
+
+        #tabledata{
+        overflow: auto;
+        }
+
+        .paginate_button{
+         background-color: #4CAF50; /* Green */
+         border: none;
+         color: white;
+         padding: 5px 5px;
+         text-align: center;
+         text-decoration: none;
+         display: inline-block;
+         font-size: 12px;
+         margin:10px;
+         }
+
+        #example_paginate{
+        text-align:left
+        }
+
+        th{
+        font-size:10px;
+        }
+
+        #example_filter{
+        color:green;
+        font-size: 13px;
+        }
+
+        #example_length{
+        color:green;
+        font-size: 13px;
+        }
+
+        #example_info{
+        color:green;
+        font-size: 13px;
+        }
+
+        .odd,.even{
+        background-color:white;
+        font-size:12px;
+        }
+
+        table.dataTable tbody tr td {
+        word-wrap: normal;
+        word-break: keep-all;
+        }
+
+        table.dataTable thead tr th {
+        min-width: 80px !important;
+        padding-top: 0px !important;
+        height:20px !important;
+
+        }
+
+        .navbar{
+        background-color: #8BD182;
+        padding:0px;
+        }
+
+    </style>
+
+<script>
+
+    $(document).ready(function(){
+
+         $('#fromdate').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bottom auto'
+          });
+          $('#todate').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bo#8BD182 to'
+
+          });
+          $('#enddate').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bottom auto'
+
+          });
+
+          $('#example').DataTable();
+
+
+        });
+
+
+     function validateForm()
+     {
+
+          var selectedValues = $('#dropdownselect').val();
+          $('#hiddenInput').val(selectedValues);
+
+          document.getElementById('chart').submit();
+
+     }
+
+</script>
+
+
+<script>
+    window.onload = function () {
+
+
+    if("{{chartview}}"=="businessunitbar"){
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	title:{
+		text: "Automation-Projects"
+
+	},
+	axisY: {
+		title: "Number Of Bots",
+		titleFontColor: "green",
+		lineColor: "green",
+		labelFontColor: "green",
+		tickColor: "#4F81BC"
+	},
+
+	toolTip: {
+		shared: true
+	},
+	legend: {
+		cursor:"pointer",
+		itemclick: toggleDataSeries
+	},
+	data: [{
+		type: "column",
+		indexLabel:"{y}",
+		name: "RGS",
+		legendText: "RGS",
+		axisYType: "primary",
+		showInLegend: true,
+		dataPoints:{{ datapoints1|safe }}
+	},
+	{
+		type: "column",
+		indexLabel:"{y}",
+		name: "RGF",
+		legendText: "RGF",
+		axisYType: "primary",
+		showInLegend: true,
+		dataPoints:{{ datapoints2|safe }}
+	}
+
+	]
+});
+
+
+chart.render();
+
+function toggleDataSeries(e) {
+	if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+		e.dataSeries.visible = false;
+	}
+	else {
+		e.dataSeries.visible = true;
+	}
+	chart.render();
+}
+
+
+}
+
+
+
+
+
+
+
+
+if("{{chartview}}"=="teambar"){
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	animationEnabled: true,
+	title:{
+		text: "Automation-Projects"
+	},
+	axisY: {
+		title: "Number Of Bots",
+		titleFontColor: "green",
+		lineColor: "green",
+		labelFontColor: "green",
+		tickColor: "#4F81BC"
+	},
+
+	toolTip: {
+		shared: true
+	},
+	legend: {
+		cursor:"pointer",
+		itemclick: toggleDataSeries
+	},
+	data: [{
+		type: "column",
+		indexLabel:"{y}",
+		name: "Prajnya",
+		legendText: "Prajnya",
+		axisYType: "primary",
+		showInLegend: true,
+		dataPoints:{{ datapoints1|safe }}
+	},
+	{
+		type: "column",
+		indexLabel:"{y}",
+		name: "Prasanth",
+		legendText: "Prasanth",
+		axisYType: "primary",
+		showInLegend: true,
+		dataPoints:{{ datapoints2|safe }}
+	},
+	{
+		type: "column",
+		indexLabel:"{y}",
+		name: "Santhosh",
+		legendText: "Santhosh",
+		axisYType: "primary",
+		showInLegend: true,
+		dataPoints:{{ datapoints3|safe }}
+	}
+	,
+	{
+		type: "column",
+		indexLabel:"{y}",
+		name: "Thanis",
+		legendText: "Thanis",
+		axisYType: "primary",
+		showInLegend: true,
+		dataPoints:{{ datapoints4|safe }}
+	}
+
+	]
+});
+
+
+chart.render();
+
+function toggleDataSeries(e) {
+	if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+		e.dataSeries.visible = false;
+	}
+	else {
+		e.dataSeries.visible = true;
+	}
+	chart.render();
+}
+
+
+}
+
+
+
+        if("{{chartview}}"=="bar"){
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+          animationEnabled: true,
+          exportEnabled: true,
+          title:{
+            text: "Automation-Projects",
+            fontFamily: "Tahoma"
+          },
+          axisY: {
+            title: ""
+          },
+          data: [{
+            type: "column",
+            indexLabel:"{y}",
+            yValueFormatString: "#,##0",
+            dataPoints: {{ datapoints1|safe }}
+          }]
+        });
+        chart.render();
+        }
+
+
+        if("{{chartview}}"=="pie"){
+              var chart = new CanvasJS.Chart("chartContainer", {
+              exportEnabled: true,
+              animationEnabled: true,
+              title: {
+                text: "Automation-Projects"
+              },
+              data: [{
+                type: "pie",
+                legendText: "{label}",
+                yValueFormatString: "#,###\"\"",
+                indexLabel: "{label} ({y})",
+                dataPoints: {{ bot_data|safe }}
+              }]
+            });
+            chart.render();
+        }
+    }
+
+
+</script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a href="{% url 'bot:index' %}" class="navbar-brand"><img src="{% static 'assets/img/Redserv.png' %}" width="100px" height="50px"></img></a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+                <a href="{% url 'bot:index' %}" class="nav-item nav-link active">Testing</a>
+                <a href="{% url 'bot:botviewquery' %}" class="nav-item nav-link active">Botview</a>
+                <a href="{% url 'bot:botmonitor' %}" class="nav-item nav-link active">Botmonitor</a>
+                <a href="{% url 'bot:chartview' %}" class="nav-item nav-link active" tabindex="-1">Chartview</a>
+                <a href="{% url 'bot:logout' %}"><button style="margin-left:720px;background-color:#AFE1AF;color:black" type="button" class="btn btn-success">Logout</button></a>
+            </div>
+            <div class="navbar-nav ms-auto">
+                <a href="#" class="nav-item nav-link"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+   <div class="row">
+
+       <div class="col-md-2 offset-md-1">
+
+        <select  class="form-select" id="dropdownselect" name="dropdownselect" style="width:175px;height:27px;font-size:12px" >
+             <option value="All" style="font-size:12px" >All</option>
+
+             {% if Developername == "Businessunit" %}
+             <option value="Businessunit" style="font-size:12px" selected>BusinessUnit</option>
+             {% else %}
+
+             <option value="Businessunit" style="font-size:12px" >BusinessUnit</option>
+             {% endif %}
+
+             {% if Developername == "Team" %}
+             <option value="Team" style="font-size:12px" selected>Team</option>
+             {% else %}
+             <option value="Team" style="font-size:12px" >Team</option>
+             {% endif %}
+
+             {% if Developername == "prajnya.sahu@redingtongroup.com" %}
+             <option value="prajnya.sahu@redingtongroup.com" style="font-size:12px" selected>prajnya.sahu@redingtongroup.com</option>
+             {% else %}
+             <option value="prajnya.sahu@redingtongroup.com" style="font-size:12px" >prajnya.sahu@redingtongroup.com</option>
+             {% endif %}
+
+             {% if Developername == "prasanth.muruga@redingtongroup.com" %}
+             <option value="prasanth.muruga@redingtongroup.com" style="font-size:12px" selected>prasanth.muruga@redingtongroup.com</option>
+             {% else %}
+             <option value="prasanth.muruga@redingtongroup.com" style="font-size:12px" >prasanth.muruga@redingtongroup.com</option>
+             {% endif %}
+
+            {% if Developername == "Swetha.M@Redingtongroup.com" %}
+             <option value="Swetha.M@Redingtongroup.com" style="font-size:12px" selected>Swetha.M@Redingtongroup.com</option>
+            {% else %}
+             <option value="Swetha.M@Redingtongroup.com" style="font-size:12px" >Swetha.M@Redingtongroup.com</option>
+            {% endif %}
+
+            {% if Developername == "thanis.albert@redingtongroup.com" %}
+            <option value="thanis.albert@redingtongroup.com" style="font-size:12px" selected>thanis.albert@redingtongroup.com</option>
+            {% else %}
+            <option value="thanis.albert@redingtongroup.com" style="font-size:12px" >thanis.albert@redingtongroup.com</option>
+            {% endif %}
+
+        </select>
+        </div>
+
+
+       <div class="col-md-2">
+         <form id="chart" class="custom-form" style=""  method="POST" action="{% url 'bot:changechartview' %}" >
+         {% csrf_token %}
+          <input type="hidden"  name="fromdatenew" id="fromdatenew">
+          <input type="hidden" name="todatenew" id="todatenew">
+          <input type="hidden" id="hiddenInput" name="hiddenInput">
+         <select onchange="return validateForm()"  class="form-select" id="chartselect" name="chartselect" style="width:175px;height:27px;font-size:12px">
+           <option value="select" style="font-size:12px" selected>Select Chart</option>
+           <option value="pie" style="font-size:12px" >Pie</option>
+           <option value="bar" style="font-size:12px" >Bar</option>
+         </select>
+         </form>
+       </div>
+
+
+    </div>
+
+
+    <div id="mailchartcontainer">
+        <div class="row">
+            <div class="col-md-7" id="chartContainer" style="width:70%; height: 360px;">
+
+            </div>
+            <div class="col-md-3">
+           <span style="color:black"> Total Bots: {{Totalcount}}</span> <br>
+           <span style="color:blue"> BotCreated: {{Botgenerated}}</span><br>
+           <span style="color:#de4374"> Development_in_progress: {{devlopment_in_progress}}</span><br>
+          <span style="color:#3fb03f">  Usertesting: {{usertesting}}</span><br>
+           <span style="color:green"> TimeStudyInProgress: {{tm}}</span><br>
+           <span style="color:#1b708c"> Completed: {{completed}}</span><br>
+          <span style="color:green">  Hold: {{hold}}</span><br>
+          <span style="color:#dea407">  Cancelled: {{cancelled}}</span><br>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+<script src="{% static 'assets/js/canvasjs.min.js' %}"></script>
+
+
+</body>
+</html>

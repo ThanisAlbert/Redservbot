@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="/action_page.php" >
+        {% csrf_token %}
+        <input type="hidden"  name="fromdateview" id="fromdateview">
+        <input type="hidden" name="todateview" id="todateview">
+      <select name="choice" id="dropdownselect" name="dropdownselect" >
+             <option value="Completed" >Select View</option>
+             <option value="Completed" >Completed</option>
+             <option value="Cancelled"  >Cancelled</option>
+             <option value="User Testing & Dev Enhancement" >User Testing & Dev Enhancement</option>
+             <option value="Under User Testing"  >Under User Testing</option>
+             <option value="TM TO BE DONE" >TM TO BE DONE</option>
+             <option value="Devolopment In Progress" >Devolopment In Progress</option>
+             <option value="Bot No.Generated" >Bot No.Generated</option>
+        </select>
+      </form>
+
+<form action="/action_page.php">
+  <label for="cars">Choose a car:</label>
+  <select name="cars" id="cars" multiple>
+    <option value="volvo">Volvo</option>
+    <option value="saab">Saab</option>
+    <option value="opel">Opel</option>
+    <option value="audi">Audi</option>
+  </select>
+  <br><br>
+  <input type="submit" value="Submit">
+</form>
+
+
+
+</body>
+</html>

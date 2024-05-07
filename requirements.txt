@@ -1,0 +1,4 @@
+pip install redis
+pip install celery
+django-celery-results
+django_celery_beat

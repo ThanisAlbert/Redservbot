@@ -1,0 +1,996 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Automation</title>
+    <link rel="stylesheet" href="{% static 'assets/bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="{% static 'assets/css/Pretty-Registration-Form.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.3/css/dataTables.bootstrap5.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+     <style> body  {opacity:0;}</style>
+     <script>
+     window.onload = function() {setTimeout(function(){document.body.style.opacity="100";},500);};
+     </script>
+     <style>
+
+        #example
+
+        #tabledata{
+        overflow: auto;
+        }
+
+        .paginate_button{
+         background-color: #4CAF50; /* Green */
+         border: none;
+         color: white;
+         padding: 5px 5px;
+         text-align: center;
+         text-decoration: none;
+         display: inline-block;
+         font-size: 12px;
+         margin:10px;
+         }
+
+        #example_paginate{
+        text-align:left
+        }
+
+        th{
+        font-size:10px;
+        }
+
+        #example_filter{
+        color:green;
+        font-size: 13px;
+        }
+
+        #example_length{
+        color:green;
+        font-size: 13px;
+        }
+
+        #example_info{
+        color:green;
+        font-size: 13px;
+        }
+
+        .odd,.even{
+        background-color:white;
+        font-size:12px;
+        }
+
+        table.dataTable tbody tr td {
+        word-wrap: normal;
+        word-break: keep-all;
+        }
+
+        table.dataTable thead tr th {
+        min-width: 80px !important;
+        padding-top: 0px !important;
+        height:20px !important;
+
+        }
+
+        .navbar{
+        background-color: #8BD182;
+        padding:0px;
+        }
+
+    </style>
+
+    <script>
+
+
+     $(document).ready(function() {
+  $('#automationtime').click(function() {
+    $('#automationModal').modal('show');
+  });
+});
+
+     $(document).ready(function() {
+  $('#manualtime').click(function() {
+    $('#automationModal').modal('show');
+  });
+});
+
+
+ $(document).ready(function() {
+      $("#submitBtn").click(function() {
+        // Get the selected value
+
+        var activity = $("input[name='activity']:checked").val();
+        var automationtimespend = $("#automationtimespend").val();
+        var manualtimespend = $("#manualtimespend").val();
+        var result1=0;
+        var result2=0;
+        var result3=0;
+
+        if (automationtimespend) {
+          result1=1
+        } else {
+          alert("Please enter bot time taken in minutes");
+        }
+
+        if (activity) {
+          result2=1
+        } else {
+          alert("Please select activity");
+        }
+
+        if (manualtimespend) {
+          result3=1
+        } else {
+          alert("Please enter manual time taken in minutes");
+        }
+
+        if (result1 === 1 && result2 === 1 && result3 === 1) {
+
+          if (activity === "daily") {
+
+             // Manual time spend
+             var minutes = parseInt(manualtimespend) * 66;
+             var days = Math.floor(minutes / 480);
+             minutes %= 480;
+             var hours = Math.floor(minutes / 60);
+             minutes %= 60;
+             // $("#manualtime").val(days + "days, " + hours + "hr, " + minutes + "min")
+             total = days*8*60+hours*60+minutes
+             $("#manualtime").val(total + " mins")
+
+             // Automation time spend
+             var minutes = parseInt(automationtimespend) * 66;
+             var days = Math.floor(minutes / 480);
+             minutes %= 480;
+             var hours = Math.floor(minutes / 60);
+             minutes %= 60;
+             //$("#automationtime").val(days + "days, " + hours + "hr, " + minutes + "min")
+             total = days*8*60+hours*60+minutes
+             $("#automationtime").val(total + " mins")
+
+             // Total Time Save
+             var minutes = (parseInt(manualtimespend)-parseInt(automationtimespend)) * 66;
+             var days = Math.floor(minutes / 480);
+             minutes %= 480;
+             var hours = Math.floor(minutes / 60);
+             minutes %= 60;
+             //$("#totaltime").val(days + "days, " + hours + "hr, " + minutes + "min")
+             $("#totalday").val(days + "days, " + hours + "hr, " + minutes + "min")
+             total = days*8*60+hours*60+minutes
+             $("#totaltime").val(total + " mins")
+             //$("#totalday").val(total+ " mins")
+
+          }
+
+          if (activity === "weekly") {
+
+             // Manual time spend
+             var minutes = parseInt(manualtimespend) * 12;
+             var days = Math.floor(minutes / 480);
+             minutes %= 480;
+             var hours = Math.floor(minutes / 60);
+             minutes %= 60;
+             //$("#manualtime").val(days + "days, " + hours + "hr, " + minutes + "min")
+             total = days*8*60+hours*60+minutes
+             $("#manualtime").val(total + " mins")
+
+             // Automation time spend
+             var minutes = parseInt(automationtimespend) * 12;
+             var days = Math.floor(minutes / 480);
+             minutes %= 480;
+             var hours = Math.floor(minutes / 60);
+             minutes %= 60;
+             //$("#automationtime").val(days + "days, " + hours + "hr, " + minutes + "min")
+             total = days*8*60+hours*60+minutes
+             $("#automationtime").val(total + " mins")
+
+             // Total Time Save
+             var minutes = (parseInt(manualtimespend)-parseInt(automationtimespend)) * 12;
+             var days = Math.floor(minutes / 480);
+             minutes %= 480;
+             var hours = Math.floor(minutes / 60);
+             minutes %= 60;
+             //$("#totaltime").val(days + "days, " + hours + "hr, " + minutes + "min")
+             $("#totalday").val(days + "days, " + hours + "hr, " + minutes + "min")
+             total = days*8*60+hours*60+minutes
+             $("#totaltime").val(total + " mins")
+             //$("#totalday").val(total+ " mins")
+
+          }
+
+          if (activity === "monthly") {
+
+          // Manual time spend
+             var minutes = parseInt(manualtimespend) * 3;
+             var days = Math.floor(minutes / 480);
+             minutes %= 480;
+             var hours = Math.floor(minutes / 60);
+             minutes %= 60;
+             //$("#manualtime").val(days + "days, " + hours + "hr, " + minutes + "min")
+             total = days*8*60+hours*60+minutes
+             $("#manualtime").val(total + " mins")
+
+             // Automation time spend
+             var minutes = parseInt(automationtimespend) * 3;
+             var days = Math.floor(minutes / 480);
+             minutes %= 480;
+             var hours = Math.floor(minutes / 60);
+             minutes %= 60;
+             //$("#automationtime").val(days + "days, " + hours + "hr, " + minutes + "min")
+             total = days*8*60+hours*60+minutes
+             $("#automationtime").val(total + " mins")
+
+             // Total Time Save
+             var minutes = (parseInt(manualtimespend)-parseInt(automationtimespend)) * 3;
+             var days = Math.floor(minutes / 480);
+             minutes %= 480;
+             var hours = Math.floor(minutes / 60);
+             minutes %= 60;
+             //$("#totaltime").val(days + "days, " + hours + "hr, " + minutes + "min")
+             $("#totalday").val(days + "days, " + hours + "hr, " + minutes + "min")
+             total = days*8*60+hours*60+minutes
+             $("#totaltime").val(total + " mins")
+             //$("#totalday").val(total+ " mins")
+
+
+          }
+
+          if (activity === "quarterly") {
+
+            // Manual time spend
+             var minutes = parseInt(manualtimespend) * 1;
+             var days = Math.floor(minutes / 480);
+             minutes %= 480;
+             var hours = Math.floor(minutes / 60);
+             minutes %= 60;
+             //$("#manualtime").val(days + "days, " + hours + "hr, " + minutes + "min")
+             total = days*8*60+hours*60+minutes
+             $("#manualtime").val(total + " mins")
+
+             // Automation time spend
+             var minutes = parseInt(automationtimespend) * 1;
+             var days = Math.floor(minutes / 480);
+             minutes %= 480;
+             var hours = Math.floor(minutes / 60);
+             minutes %= 60;
+             //$("#automationtime").val(days + "days, " + hours + "hr, " + minutes + "min")
+             total = days*8*60+hours*60+minutes
+             $("#automationtime").val(total + " mins")
+
+             // Total Time Save
+             var minutes = (parseInt(manualtimespend)-parseInt(automationtimespend)) * 1;
+             var days = Math.floor(minutes / 480);
+             minutes %= 480;
+             var hours = Math.floor(minutes / 60);
+             minutes %= 60;
+             //$("#totaltime").val(days + "days, " + hours + "hr, " + minutes + "min")
+             $("#totalday").val(days + "days, " + hours + "hr, " + minutes + "min")
+             total = days*8*60+hours*60+minutes
+             $("#totaltime").val(total + " mins")
+             //$("#totalday").val(total+ " mins")
+
+          }
+
+
+          $('#automationModal').modal('hide');
+
+        } else {
+
+        }
+
+      });
+    });
+
+
+
+        $(document).ready(function(){
+          $('#creationdate').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bottom auto'
+          });
+          $('#startdate').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bo#8BD182 to'
+
+          });
+          $('#enddate').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bottom auto'
+
+          });
+
+           $('#enhancestart').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bo#8BD182 to'
+          });
+          $('#enhanceend').datepicker({
+          format: 'dd/mm/yyyy',
+          orientation: 'bo#8BD182 to'
+          });
+
+
+
+          $('#example').DataTable({
+          "aaSorting": []
+          });
+        });
+
+
+ $(document).ready(function(){
+
+  $("form button[type='submit']").click(function(e) {
+  var buttonClicked = $(this).attr("name");
+  var temp = ($("#myvar").val());
+  var a = $("#botno").val();
+
+   if (a==='')
+   {
+     alert("Please enter bot no")
+   }
+
+   if ((a!==temp) && (buttonClicked==="update"))
+   {
+     alert("Incorrect bot no provided. Please check")
+     e.preventDefault();
+   }
+
+});
+
+});
+
+
+    </script>
+
+</head>
+
+<body><div clas="row" style="height:0px;">
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a href="{% url 'bot:index' %}" class="navbar-brand"><img src="{% static 'assets/img/Redserv.png' %}" width="100px" height="50px"></img></a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+                <a href="{% url 'bot:index' %}" class="nav-item nav-link active">Home</a>
+                <a href="{% url 'bot:botviewquery' %}" class="nav-item nav-link active">Botview</a>
+                <a href="{% url 'bot:botmonitor' %}" class="nav-item nav-link active">Botmonitor</a>
+                 <a href="{% url 'bot:chartview' %}" class="nav-item nav-link active" tabindex="-1">Chartview</a>
+                <a href="{% url 'bot:logout' %}"><button style="margin-left:720px;background-color:#AFE1AF;color:black" type="button" class="btn btn-success">Logout</button></a>
+            </div>
+            <div class="navbar-nav ms-auto">
+                <a href="#" class="nav-item nav-link"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+</div>
+
+<!--
+<div class="row register-form" >
+
+  {% for bot in Botdetails %}
+  <form enctype="multipart/form-data" name="bot" class="custom-form" style="padding-bottom:0px;background-color:#F8F8F8;padding-top:50px;padding-left:0px;padding-right:0px;margin-top:25px;margin-left:0px;margin-right:0px;margin-bottom:0px;"  method="POST" action="{% url 'bot:create' %}" style="margin:0px;padding-top:5px;padding-bottom:0px">
+            {% csrf_token %}
+            <div class="row form-group" style="margin:5px" >
+                <input type="hidden" id="myvar" value="{{bot.Botno}}">
+                <div class="col-sm-1 label-column" style="padding-right:50px;"><label class="col-form-label" style="font-size:12px;" >Bot No.</label></div>
+                <div class="col-sm-1 input-column" style=""><input class="form-control" style="width:125px;height:15px;font-size:12px;" name="botno" id="botno" type="text" value="{{bot.Botno}}"  /></div>
+                <div class="col-sm-2 label-column" style="padding-right:55px;"><label class="col-form-label"  style="font-size:12px;">Bot Name</label></div>
+                <div class="col-sm-1 input-column" style=""><input class="form-control" name="botname" type="text" style="width:125px;height:15px;font-size:12px;" value="{{bot.Botname}}" /></div>
+                <div class="col-sm-2 label-column" style="padding-right:82px;"><label class="col-form-label" style="font-size:12px;padding-right:2px;">Process</label></div>
+                <div class="col-sm-1 input-column" style="text-align: left;">
+                   <select class="form-select" name="process" style="width:125px;height:27px;font-size:12px">
+                       <option value="" style="font-size:12px" selected></option>
+                       {% for process in process %}
+                       {% if process.processname == bot.Process %}
+                       <option value="{{process.processname}}" style="font-size:12px" selected>{{process.processname}}</option>
+                       {% else %}
+                       <option value="{{process.processname}}" style="font-size:12px">{{process.processname}}</option>
+                       {% endif %}
+                       {% endfor %}
+                   </select>
+                </div>
+                <div class="col-sm-2 label-column" style="" ><label class="col-form-label" style="font-size:12px;padding-right:68px;">Subprocess</label></div>
+                <div class="col-sm-2 input-column" style="">
+                   <select class="form-select" name="subprocess" style="width:125px;height:27px;font-size:12px;">
+                       <option value="" style="font-size:12px" selected></option>
+                       {% for subprocess in subprocess %}
+                       {% if subprocess.subprocessname == bot.Subprocess %}
+                       <option value="{{subprocess.subprocessname}}" style="font-size:12px" selected>{{subprocess.subprocessname}}</option>
+                       {% else %}
+                       <option value="{{subprocess.subprocessname}}" style="font-size:12px">{{subprocess.subprocessname}}</option>
+                       {% endif %}
+                       {% endfor %}
+                   </select>
+                </div>
+            </div>
+            <div class="row form-group" style="margin:5px">
+                <div class="col-sm-1 label-column" style="text-align: left;"><label class="col-form-label" style="font-size:12px">Spoc Name</label></div>
+                <div class="col-sm-1 input-column" ><input class="form-control" name="spocname"   style="width:125px;height:15px;font-size:12px;" type="text" value="{{bot.Spocname}}" /></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px">Requestor Mail Id</label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" name="requestormail"  style="width:125px;height:15px;font-size:12px;" type="text" value="{{bot.Requestormail}}" /></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:25px;" >Teamlead Mail Id</label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" name="teamleadmail" type="text"  style="width:125px;height:15px;font-size:12px;" value="{{bot.Teamleadmail}}" /></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:47px;" >Manager Mail Id </label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" name="managermail" type="text" style="width:125px;height:15px;font-size:12px;" value="{{bot.Managermail}}" /></div>
+            </div>
+            <div class="row form-group" style="margin:5px">
+                <div class="col-sm-1 label-column" style="text-align: left"><label class="col-form-label" style="font-size:11px" >Developer Mail</label></div>
+                <div class="col-sm-1 input-column">
+                    <select class="form-select" name="developermail" id="developermail" style="width:125px;height:27px;font-size:12px;">
+                        {% for devmail in developermail %}
+                           {% if devmail.Developermail == bot.Developermail %}
+                           <option value="{{devmail.Developermail}}" style="font-size:12px" selected>{{devmail.Developermail}}</option>
+                           {% else %}
+                           <option value="{{devmail.Developermail}}" style="font-size:12px">{{devmail.Developermail}}</option>
+                           {% endif %}
+                        {% endfor %}
+                   </select>
+                </div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:2px;">Technology Used </label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" type="text" name="technology" style="width:125px;height:15px;font-size:12px;"  value="{{bot.Technologyused}}"/></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:40px;">Creation Date </label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" type="text" id="creationdate" name="creationdate" style="width:125px;height:15px;font-size:12px;" autocomplete="off" value={{bot.Creationdate|date:"d/m/Y"}}></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:80px;" >Start Date</label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" type="text" id="startdate" name="startdate" style="width:125px;height:15px;font-size:12px;" autocomplete="off"  value={{bot.Startdate|date:"d/m/Y"}}></div>
+            </div>
+            <div class="row form-group" style="margin:5px">
+                <div class="col-sm-1 label-column" style="text-align: left"><label class="col-form-label" style="font-size:12px" >End Date </label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" type="text" id="enddate" name="enddate" style="width:125px;height:15px;font-size:12px;" autocomplete="off" value={{bot.Enddate|date:"d/m/Y"}}></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:40px;">Bot Status</label></div>
+                <div class="col-sm-1 input-column">
+                    <select class="form-select" name="botstatus" style="width:125px;height:27px;font-size:12px">
+                    <option value="" style="font-size:12px" selected></option>
+                    {% for botstatus in botstatus %}
+                      {% if botstatus.botstatus == bot.Botstatus %}
+                      <option value="{{botstatus.botstatus}}" style="font-size:12px" selected>{{botstatus.botstatus}}</option>
+                      {% else %}
+                      <option value="{{botstatus.botstatus}}" style="font-size:12px">{{botstatus.botstatus}}</option>
+                      {% endif %}
+                    {% endfor %}
+                   </select>
+                </div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:5px;">Manual Time Spend </label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" type="text" name="manualtime"  id="manualtime" style="width:125px;height:15px;font-size:12px" value="{{bot.Manualtimespend}}"/></div>
+                 <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;">Automation Time Spend </label></div>
+                <div class="col-sm-2 input-column"><input class="form-control" type="text" name="automationtime" id="automationtime"   style="width:125px;height:15px;font-size:12px" value="{{bot.Automationtimespend}}" /></div>
+            </div>
+            <div class="row form-group" style="margin:0px">
+                <div class="col-sm-1 label-column"><label class="col-form-label" style="font-size:12px;padding-left:4px;">Total_Time_Save</label></div>
+                <div class="col-sm-1 input-column" style="padding-left:15px;"><input class="form-control" type="text" name="totaltime" id="totaltime" style="width:125px;height:15px;font-size:12px" value="{{bot.Totaltimesaved}}" /></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:8px;" >Total Day Saved</label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" type="text" name="totalday" id="totalday" style="width:125px;height:15px;font-size:12px" value="{{bot.Totaldaysaved}}"/></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px">Kaizen Award Status</label></div>
+                <div class="col-sm-1 input-column">
+                    <select class="form-select" name="kaizenstatus" style="width:125px;height:27px;font-size:12px">
+                    <option value="" style="font-size:12px" selected></option>
+                    {% for status in kaizenstatus %}
+                    {% if status.Kaizenstatus == bot.Kaizenawardstatus %}
+                    <option value="{{status.Kaizenstatus}}" style="font-size:12px" selected>{{status.Kaizenstatus}}</option>
+                    {% else %}
+                    <option value="{{status.Kaizenstatus}}" style="font-size:12px">{{status.Kaizenstatus}}</option>
+                    {% endif %}
+                    {% endfor %}
+                   </select>
+                </div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:78px;">LiveStatus</label></div>
+                <div class="col-sm-2 input-column">
+                   <select class="form-select" name="kaizenyear" style="width:125px;height:27px;font-size:12px">
+                    <option value="" style="font-size:12px" selected></option>
+                    {% for kaizenawarded in kaizenawardedyear %}
+                    {% if kaizenawarded.Kaizenawardedyear == bot.livestatus %}
+                    <option value="{{kaizenawarded.Kaizenawardedyear}}" style="font-size:12px" selected>{{kaizenawarded.Kaizenawardedyear}}</option>
+                    {% else %}
+                    <option value="{{kaizenawarded.Kaizenawardedyear}}" style="font-size:12px">{{kaizenawarded.Kaizenawardedyear}}</option>
+                    {% endif %}
+                    {% endfor %}
+                   </select>
+                </div>
+            </div>
+
+             <div class="row form-group" style="margin:5px;">
+                <div class="col-sm-1 label-column" style="text-align: left"><label class="col-form-label" style="font-size:12px" >Bot Desc</label></div>
+                <div class="col-sm-1 input-column"><input class="form-control" style="width:125px;height:15px;font-size:12px" name="botdesc" type="text" value="{{bot.Botdesc}}"/></div>
+                <div class="col-sm-2 label-column"><label class="col-form-label" style="font-size:12px;padding-right:19px;"   >Mail Recipient </label></div>
+                <div class="col-sm-2 input-column" style="width:180px;">
+                    <input class="form-control" style="width:125px;height:15px;font-size:12px" name="mailrecipient" type="text" value="{{bot.Mailrecipient}}" />
+                    <small class="text-muted" style="font-size:10px;">Please use ; to seperate mail</small>
+                </div>
+                <div class="col-sm-1 label-column" style="width:145px;text-align:left" ><label class="col-form-label" style="font-size:12px;padding-right:7px;" >Enhance Start Date</label></div>
+
+                 <div class="col-sm-1 input-column" style="padding-left:8px;">
+
+                     {% with formatted_date=bot.enhancestartdate|date:"d/m/Y" %}
+    <input class="form-control" style="width:125px;height:15px;font-size:12px" id="enhancestart" name="enhancestart" type="text" autocomplete="off" value="{{ formatted_date }}" />
+{% endwith %}
+
+
+                <div class="col-sm-2 label-column">
+                    <div class="row">
+                    <div class="col-sm-11">
+                    <label class="col-form-label" style="font-size:12px;padding-right:20px;" >Enhance End Date</label>
+                    </div>
+                    <div class="col-sm-1">
+                    </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-1 input-column">
+                    {% with formatted_date=bot.enhanceenddate|date:"d/m/Y" %}
+                    <input class="form-control" style="width:125px;height:15px;font-size:12px" id="enhanceend" name="enhanceend" type="text" autocomplete="off" value="{{ formatted_date }}" />
+                    {% endwith %}
+
+
+                </div>
+
+             </div>
+
+
+           <div class="row form-group" style="margin:0px">
+                 <div class="col-sm-1 label-column" ><label class="col-form-label" style="font-size:12px;" >Business Unit</label></div>
+                 <div class="col-sm-1 input-column" style="padding-left:15px;">
+
+                     <select class="form-select" name="businessunit" id="businessunit" style="width:125px;height:27px;font-size:12px;">
+                       {% if bot.businessunit == "RGS" %}
+                          <option value="RGS" style="font-size:12px" selected>RGS</option>
+                          <option value="RGF" style="font-size:12px" >RGF</option>
+                          <option value="Wabco" style="font-size:12px" >Wabco</option>
+                       {% endif %}
+                       {% if bot.businessunit == "RGF" %}
+                          <option value="RGF" style="font-size:12px" selected>RGF</option>
+                          <option value="RGS" style="font-size:12px" >RGS</option>
+                          <option value="Wabco" style="font-size:12px" >Wabco</option>
+                       {% endif %}
+                       {% if bot.businessunit == "Wabco" %}
+                          <option value="Wabco" style="font-size:12px" selected>Wabco</option>
+                          <option value="RGS" style="font-size:12px" >RGS</option>
+                          <option value="RGF" style="font-size:12px" >RGF</option>
+                       {% endif %}
+                       {% if bot.businessunit == "" %}
+                          <option value="" style="font-size:12px" selected></option>
+                          <option value="RGS" style="font-size:12px" >RGS</option>
+                          <option value="RGF" style="font-size:12px" >RGF</option>
+                          <option value="Wabco" style="font-size:12px" >Wabco</option>
+                       {% endif %}
+                       {% if bot.businessunit == None %}
+                          <option value="" style="font-size:12px" selected></option>
+                          <option value="RGS" style="font-size:12px" >RGS</option>
+                          <option value="RGF" style="font-size:12px" >RGF</option>
+                          <option value="Wabco" style="font-size:12px" >Wabco</option>
+                       {% endif %}
+                   </select>
+
+                 </div>
+
+
+                 <div class="col-sm-2 label-column" ><label class="col-form-label" style="font-size:12px;padding-right:53px;" >Priority</label></div>
+                 <div class="col-sm-1 input-column" style="padding-left:13px;">
+                     <select class="form-select" name="priority" id="priority" style="width:125px;height:27px;font-size:12px;">
+
+                         {% if bot.priority == "" %}
+                         <option value="" selected></option>
+                         <option value="Low" style="font-size:12px">Low</option>
+                         <option value="Medium" style="font-size:12px">Medium</option>
+                         <option value="Complex" style="font-size:12px">Complex</option>
+                         {% endif %}
+
+                         {% if bot.priority == None %}
+                         <option value="" selected ></option>
+                         <option value="Low" style="font-size:12px">Low</option>
+                         <option value="Medium" style="font-size:12px">Medium</option>
+                         <option value="Complex" style="font-size:12px">Complex</option>
+                         {% endif %}
+
+                         {% if bot.priority == "Low" %}
+                         <option value=""></option>
+                         <option value="Low" style="font-size:12px" selected>Low</option>
+                         <option value="Medium" style="font-size:12px" >Medium</option>
+                         <option value="Complex" style="font-size:12px">Complex</option>
+                         {% endif %}
+
+
+                         {% if bot.priority == "Medium" %}
+                         <option value=""></option>
+                         <option value="Low" style="font-size:12px">Low</option>
+                         <option value="Medium" style="font-size:12px" selected>Medium</option>
+                         <option value="Complex" style="font-size:12px">Complex</option>
+                         {% endif %}
+
+                         {% if bot.priority == "Complex" %}
+                         <option value=""></option>
+                         <option value="Low" style="font-size:12px">Low</option>
+                         <option value="Medium" style="font-size:12px">Medium</option>
+                         <option value="Complex" style="font-size:12px" selected>Complex</option>
+                         {% endif %}
+
+                   </select>
+                 </div>
+
+                 <div class="col-sm-2 label-column" ><label class="col-form-label" style="font-size:12px;padding-right:32px;" >Categorization</label></div>
+                 <div class="col-sm-1 input-column" style="padding-right:15px;">
+                     <select class="form-select" name="categorization" id="categorization" style="width:125px;height:27px;font-size:12px;">
+
+                       {% if bot.categorization == "" %}
+
+                       <option value="" selected></option>
+                       <option value="Operational Efficiency" style="font-size:12px">Operational Efficiency</option>
+                       <option value="Compliance Adherence" style="font-size:12px">Compliance Adherence</option>
+                       <option value="Control on revenue leakage" style="font-size:12px">Control on revenue leakage</option>
+                       <option value="Avoid excess payment" style="font-size:12px">Avoid excess payment</option>
+                       <option value="Faster order processing" style="font-size:12px">Faster order processing</option>
+                       <option value="Improves Ontime payment" style="font-size:12px">Improves Ontime payment</option>
+                       <option value="Insights for Sales enablement" style="font-size:12px">Insights for Sales enablement</option>
+                       <option value="Ontime reporting (MIS improvement)" style="font-size:12px">Ontime reporting (MIS improvement)</option>
+                       <option value="Accurate Rebate claims" style="font-size:12px">Accurate Rebate claims</option>
+                       <option value="Improved customer experience" style="font-size:12px">Improved customer experience</option>
+                       <option value="Statutory requirements" style="font-size:12px">Statutory requirements</option>
+                       {% endif %}
+
+
+                       {% if bot.categorization == None %}
+                       <option value="" selected></option>
+                       <option value="Operational Efficiency" style="font-size:12px">Operational Efficiency</option>
+                       <option value="Compliance Adherence" style="font-size:12px">Compliance Adherence</option>
+                       <option value="Control on revenue leakage" style="font-size:12px">Control on revenue leakage</option>
+                       <option value="Avoid excess payment" style="font-size:12px">Avoid excess payment</option>
+                       <option value="Faster order processing" style="font-size:12px">Faster order processing</option>
+                       <option value="Improves Ontime payment" style="font-size:12px">Improves Ontime payment</option>
+                       <option value="Insights for Sales enablement" style="font-size:12px">Insights for Sales enablement</option>
+                       <option value="Ontime reporting (MIS improvement)" style="font-size:12px">Ontime reporting (MIS improvement)</option>
+                       <option value="Accurate Rebate claims" style="font-size:12px">Accurate Rebate claims</option>
+                       <option value="Improved customer experience" style="font-size:12px">Improved customer experience</option>
+                       <option value="Statutory requirements" style="font-size:12px">Statutory requirements</option>
+                       {% endif %}
+
+
+                       {% if bot.categorization == "Operational Efficiency" %}
+                       <option value="" selected></option>
+                       <option value="Operational Efficiency" style="font-size:12px" selected>Operational Efficiency</option>
+                       <option value="Compliance Adherence" style="font-size:12px">Compliance Adherence</option>
+                       <option value="Control on revenue leakage" style="font-size:12px">Control on revenue leakage</option>
+                       <option value="Avoid excess payment" style="font-size:12px">Avoid excess payment</option>
+                       <option value="Faster order processing" style="font-size:12px">Faster order processing</option>
+                       <option value="Improves Ontime payment" style="font-size:12px">Improves Ontime payment</option>
+                       <option value="Insights for Sales enablement" style="font-size:12px">Insights for Sales enablement</option>
+                       <option value="Ontime reporting (MIS improvement)" style="font-size:12px">Ontime reporting (MIS improvement)</option>
+                       <option value="Accurate Rebate claims" style="font-size:12px">Accurate Rebate claims</option>
+                       <option value="Improved customer experience" style="font-size:12px">Improved customer experience</option>
+                       <option value="Statutory requirements" style="font-size:12px">Statutory requirements</option>
+                       {% endif %}
+
+
+                       {% if bot.categorization == "Compliance Adherence" %}
+                       <option value="" selected></option>
+                       <option value="Operational Efficiency" style="font-size:12px">Operational Efficiency</option>
+                       <option value="Compliance Adherence" style="font-size:12px" selected>Compliance Adherence</option>
+                       <option value="Control on revenue leakage" style="font-size:12px">Control on revenue leakage</option>
+                       <option value="Avoid excess payment" style="font-size:12px">Avoid excess payment</option>
+                       <option value="Faster order processing" style="font-size:12px">Faster order processing</option>
+                       <option value="Improves Ontime payment" style="font-size:12px">Improves Ontime payment</option>
+                       <option value="Insights for Sales enablement" style="font-size:12px">Insights for Sales enablement</option>
+                       <option value="Ontime reporting (MIS improvement)" style="font-size:12px">Ontime reporting (MIS improvement)</option>
+                       <option value="Accurate Rebate claims" style="font-size:12px">Accurate Rebate claims</option>
+                       <option value="Improved customer experience" style="font-size:12px">Improved customer experience</option>
+                       <option value="Statutory requirements" style="font-size:12px">Statutory requirements</option>
+                       {% endif %}
+
+                       {% if bot.categorization == "Control on revenue leakage" %}
+                       <option value="" selected></option>
+                       <option value="Operational Efficiency" style="font-size:12px">Operational Efficiency</option>
+                       <option value="Compliance Adherence" style="font-size:12px" >Compliance Adherence</option>
+                       <option value="Control on revenue leakage" style="font-size:12px" selected>Control on revenue leakage</option>
+                       <option value="Avoid excess payment" style="font-size:12px">Avoid excess payment</option>
+                       <option value="Faster order processing" style="font-size:12px">Faster order processing</option>
+                       <option value="Improves Ontime payment" style="font-size:12px">Improves Ontime payment</option>
+                       <option value="Insights for Sales enablement" style="font-size:12px">Insights for Sales enablement</option>
+                       <option value="Ontime reporting (MIS improvement)" style="font-size:12px">Ontime reporting (MIS improvement)</option>
+                       <option value="Accurate Rebate claims" style="font-size:12px">Accurate Rebate claims</option>
+                       <option value="Improved customer experience" style="font-size:12px">Improved customer experience</option>
+                       <option value="Statutory requirements" style="font-size:12px">Statutory requirements</option>
+                       {% endif %}
+
+                       {% if bot.categorization == "Avoid excess payment" %}
+                       <option value="" selected></option>
+                        <option value="Operational Efficiency" style="font-size:12px">Operational Efficiency</option>
+                       <option value="Compliance Adherence" style="font-size:12px" >Compliance Adherence</option>
+                       <option value="Control on revenue leakage" style="font-size:12px" >Control on revenue leakage</option>
+                       <option value="Avoid excess payment" style="font-size:12px" selected>Avoid excess payment</option>
+                       <option value="Faster order processing" style="font-size:12px">Faster order processing</option>
+                       <option value="Improves Ontime payment" style="font-size:12px">Improves Ontime payment</option>
+                       <option value="Insights for Sales enablement" style="font-size:12px">Insights for Sales enablement</option>
+                       <option value="Ontime reporting (MIS improvement)" style="font-size:12px">Ontime reporting (MIS improvement)</option>
+                       <option value="Accurate Rebate claims" style="font-size:12px">Accurate Rebate claims</option>
+                       <option value="Improved customer experience" style="font-size:12px">Improved customer experience</option>
+                       <option value="Statutory requirements" style="font-size:12px">Statutory requirements</option>
+                       {% endif %}
+
+                        {% if bot.categorization == "Faster order processing" %}
+                       <option value="" selected></option>
+                        <option value="Operational Efficiency" style="font-size:12px">Operational Efficiency</option>
+                       <option value="Compliance Adherence" style="font-size:12px" >Compliance Adherence</option>
+                       <option value="Control on revenue leakage" style="font-size:12px" >Control on revenue leakage</option>
+                       <option value="Avoid excess payment" style="font-size:12px" >Avoid excess payment</option>
+                       <option value="Faster order processing" style="font-size:12px" selected>Faster order processing</option>
+                       <option value="Improves Ontime payment" style="font-size:12px">Improves Ontime payment</option>
+                       <option value="Insights for Sales enablement" style="font-size:12px">Insights for Sales enablement</option>
+                       <option value="Ontime reporting (MIS improvement)" style="font-size:12px">Ontime reporting (MIS improvement)</option>
+                       <option value="Accurate Rebate claims" style="font-size:12px">Accurate Rebate claims</option>
+                       <option value="Improved customer experience" style="font-size:12px">Improved customer experience</option>
+                       <option value="Statutory requirements" style="font-size:12px">Statutory requirements</option>
+                       {% endif %}
+
+
+                      {% if bot.categorization == "Improves Ontime payment" %}
+                       <option value="" selected></option>
+                        <option value="Operational Efficiency" style="font-size:12px">Operational Efficiency</option>
+                       <option value="Compliance Adherence" style="font-size:12px" >Compliance Adherence</option>
+                       <option value="Control on revenue leakage" style="font-size:12px" >Control on revenue leakage</option>
+                       <option value="Avoid excess payment" style="font-size:12px" >Avoid excess payment</option>
+                       <option value="Faster order processing" style="font-size:12px" >Faster order processing</option>
+                       <option value="Improves Ontime payment" style="font-size:12px" selected>Improves Ontime payment</option>
+                       <option value="Insights for Sales enablement" style="font-size:12px">Insights for Sales enablement</option>
+                       <option value="Ontime reporting (MIS improvement)" style="font-size:12px">Ontime reporting (MIS improvement)</option>
+                       <option value="Accurate Rebate claims" style="font-size:12px">Accurate Rebate claims</option>
+                       <option value="Improved customer experience" style="font-size:12px">Improved customer experience</option>
+                       <option value="Statutory requirements" style="font-size:12px">Statutory requirements</option>
+                       {% endif %}
+
+
+                        {% if bot.categorization == "Insights for Sales enablement" %}
+                       <option value="" selected></option>
+                        <option value="Operational Efficiency" style="font-size:12px">Operational Efficiency</option>
+                       <option value="Compliance Adherence" style="font-size:12px" >Compliance Adherence</option>
+                       <option value="Control on revenue leakage" style="font-size:12px" >Control on revenue leakage</option>
+                       <option value="Avoid excess payment" style="font-size:12px" >Avoid excess payment</option>
+                       <option value="Faster order processing" style="font-size:12px" >Faster order processing</option>
+                       <option value="Improves Ontime payment" style="font-size:12px" >Improves Ontime payment</option>
+                       <option value="Insights for Sales enablement" style="font-size:12px" selected>Insights for Sales enablement</option>
+                       <option value="Ontime reporting (MIS improvement)" style="font-size:12px">Ontime reporting (MIS improvement)</option>
+                       <option value="Accurate Rebate claims" style="font-size:12px">Accurate Rebate claims</option>
+                       <option value="Improved customer experience" style="font-size:12px">Improved customer experience</option>
+                       <option value="Statutory requirements" style="font-size:12px">Statutory requirements</option>
+                       {% endif %}
+
+
+                        {% if bot.categorization == "Ontime reporting (MIS improvement)" %}
+                       <option value="" selected></option>
+                        <option value="Operational Efficiency" style="font-size:12px">Operational Efficiency</option>
+                       <option value="Compliance Adherence" style="font-size:12px" >Compliance Adherence</option>
+                       <option value="Control on revenue leakage" style="font-size:12px" >Control on revenue leakage</option>
+                       <option value="Avoid excess payment" style="font-size:12px" >Avoid excess payment</option>
+                       <option value="Faster order processing" style="font-size:12px" >Faster order processing</option>
+                       <option value="Improves Ontime payment" style="font-size:12px" >Improves Ontime payment</option>
+                       <option value="Insights for Sales enablement" style="font-size:12px" >Insights for Sales enablement</option>
+                       <option value="Ontime reporting (MIS improvement)" style="font-size:12px" selected>Ontime reporting (MIS improvement)</option>
+                       <option value="Accurate Rebate claims" style="font-size:12px">Accurate Rebate claims</option>
+                       <option value="Improved customer experience" style="font-size:12px">Improved customer experience</option>
+                       <option value="Statutory requirements" style="font-size:12px">Statutory requirements</option>
+                       {% endif %}
+
+                      {% if bot.categorization == "Accurate Rebate claims" %}
+                       <option value="" selected></option>
+                        <option value="Operational Efficiency" style="font-size:12px">Operational Efficiency</option>
+                       <option value="Compliance Adherence" style="font-size:12px" >Compliance Adherence</option>
+                       <option value="Control on revenue leakage" style="font-size:12px" >Control on revenue leakage</option>
+                       <option value="Avoid excess payment" style="font-size:12px" >Avoid excess payment</option>
+                       <option value="Faster order processing" style="font-size:12px" >Faster order processing</option>
+                       <option value="Improves Ontime payment" style="font-size:12px" >Improves Ontime payment</option>
+                       <option value="Insights for Sales enablement" style="font-size:12px" >Insights for Sales enablement</option>
+                       <option value="Ontime reporting (MIS improvement)" style="font-size:12px" >Ontime reporting (MIS improvement)</option>
+                       <option value="Accurate Rebate claims" style="font-size:12px" selected>Accurate Rebate claims</option>
+                       <option value="Improved customer experience" style="font-size:12px">Improved customer experience</option>
+                       <option value="Statutory requirements" style="font-size:12px">Statutory requirements</option>
+                       {% endif %}
+
+
+                       {% if bot.categorization == "Improved customer experience" %}
+                       <option value="" selected></option>
+                        <option value="Operational Efficiency" style="font-size:12px">Operational Efficiency</option>
+                       <option value="Compliance Adherence" style="font-size:12px" >Compliance Adherence</option>
+                       <option value="Control on revenue leakage" style="font-size:12px" >Control on revenue leakage</option>
+                       <option value="Avoid excess payment" style="font-size:12px" >Avoid excess payment</option>
+                       <option value="Faster order processing" style="font-size:12px" >Faster order processing</option>
+                       <option value="Improves Ontime payment" style="font-size:12px" >Improves Ontime payment</option>
+                       <option value="Insights for Sales enablement" style="font-size:12px" >Insights for Sales enablement</option>
+                       <option value="Ontime reporting (MIS improvement)" style="font-size:12px" >Ontime reporting (MIS improvement)</option>
+                       <option value="Accurate Rebate claims" style="font-size:12px" >Accurate Rebate claims</option>
+                       <option value="Improved customer experience" style="font-size:12px" selected>Improved customer experience</option>
+                       <option value="Statutory requirements" style="font-size:12px">Statutory requirements</option>
+                       {% endif %}
+
+
+                       {% if bot.categorization == "Statutory requirements" %}
+                       <option value="" selected></option>
+                        <option value="Operational Efficiency" style="font-size:12px">Operational Efficiency</option>
+                       <option value="Compliance Adherence" style="font-size:12px" >Compliance Adherence</option>
+                       <option value="Control on revenue leakage" style="font-size:12px" >Control on revenue leakage</option>
+                       <option value="Avoid excess payment" style="font-size:12px" >Avoid excess payment</option>
+                       <option value="Faster order processing" style="font-size:12px" >Faster order processing</option>
+                       <option value="Improves Ontime payment" style="font-size:12px" >Improves Ontime payment</option>
+                       <option value="Insights for Sales enablement" style="font-size:12px" >Insights for Sales enablement</option>
+                       <option value="Ontime reporting (MIS improvement)" style="font-size:12px" >Ontime reporting (MIS improvement)</option>
+                       <option value="Accurate Rebate claims" style="font-size:12px" >Accurate Rebate claims</option>
+                       <option value="Improved customer experience" style="font-size:12px" >Improved customer experience</option>
+                       <option value="Statutory requirements" style="font-size:12px" selected>Statutory requirements</option>
+                       {% endif %}
+
+                   </select>
+                 </div>
+
+                <div class="col-sm-1 label-column" style="font-size:12px;text-align:left;margin-left:50px;margin-top:5px;">
+              File Upload:
+              </div>
+              <div class="col-sm-1 label-column" style="margin-top:5px;margin-left:60px;">
+              <input type="file" name="myfile" multiple>
+              </div>
+            </div>
+            <br>
+
+
+
+            <div class="row" style="height:50px;">
+               <div class="col-sm-1 label-column" ><label class="col-form-label" style="font-size:12px;text-align:left;padding-right:18px;" >Remarks</label></div>
+               <div class="col-sm-2 input-column" style="padding-left:25px;">
+               <textarea class="form-control" style="width:125px;font-size:12px;" id="remarks"  name="remarks" rows="3"  autocomplete="off"/>{{bot.remarks}}</textarea>
+            </div>
+
+
+            </div>
+
+            <br>
+
+            <div class="row form-group" style="margin:0px">
+            <div class="col-sm-1 offset-md-4 label-column"><button  style="height:30px;width:100px;padding:0px;margin:10px;" class="btn btn-light submit-button" type="submit" name="search">Seach</button></div>
+            <div class="col-sm-1 label-column"><button  style="height:30px;width:100px;padding:0px;margin:10px;" class="btn btn-light submit-button" type="submit" name="submit">Submit</button></div>
+            <div class="col-sm-1 label-column"><button  style="height:30px;width:100px;padding:0px;margin:10px;" class="btn btn-light submit-button" type="submit" name="update">Update</button></div>
+            </div>
+        </form>
+  {% endfor %}
+
+</div>
+
+
+<div id="tabledata"  style="width:1250px;margin-top:15px;">
+
+<div class="row">
+    <div class="col-md-4 offset-md-5"><i style="font-size:10px;"><b>Status:</b> Bot No.Generated, Devolopment In Progress</i></div>
+</div>
+
+<table id="example"  class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th style="min-width: 40px">Bot No.</th>
+                <th style="min-width: 150px">Bot Name</th>
+
+                <th>Subprocess</th>
+                <th style="min-width: 150px">Spoc Name</th>
+
+                <th style="min-width: 150px">Developer Mail Id</th>
+
+                <th style="min-width: 80px">Creation Date</th>
+                <th style="min-width: 80px">Start Date</th>
+                <th style="min-width: 80px">End Date</th>
+                <th style="min-width: 200px">Bot Status</th>
+                <th style="min-width: 200px">Downloads</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for Bot in Bots %}
+            <tr>
+
+                <td>
+                <a href="{% url 'bot:editbot' param=Bot.Botno %}" style="color:black;font-style: italic;">{{Bot.Botno}}</a>
+
+                {% for Bothistno in bothistory %}
+
+                       {% if Bot.Botno == Bothistno %}
+                       &nbsp;&nbsp;<a href="{% url 'bot:history' param=Bot.Botno %}" style="color:brown;font-style: italic;">History</a>
+                       {% endif %}
+                {% endfor %}
+
+                </td>
+
+                <td>{{Bot.Botname}}</td>
+
+                <td>{{Bot.Subprocess}}</td>
+                <td>{{Bot.Spocname}}</td>
+
+                <td>{{Bot.Developermail}}</td>
+
+                <td>{{Bot.Creationdate}}</td>
+                <td>{{Bot.Startdate}}</td>
+                <td>{{Bot.Enddate}}</td>
+                <td>{{Bot.Botstatus}}</td>
+                <td>
+                    <a href="{% url 'bot:getfile' param=Bot.Botno %}">Download</a>
+                    <a href="{% url 'bot:getfilenameslist' param=Bot.Botno %}">View</a>
+                </td>
+
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+
+
+</div>
+-->
+
+
+<div class="row" style="background-color:#8BD182;height:50px">
+.
+</div>
+
+<div class="modal fade" id="automationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="exampleModalLabel" style="font-size:11px;font-weight: bold;">Yearly bot time calculation:</div>
+      </div>
+      <div class="modal-body">
+
+            <div class="row">
+            <div class="col-sm-4" style="padding-left:12px;" ><label class="form-check-label" style="font-size:11px;padding-left:0px;">Manual time taken in mins :</label></div>
+            <div class="col-sm-4" style="padding-left:0px;" ><input class="form-check-input" style="width:100px;padding-left:0px;font-size:12px;height:25px;" id="manualtimespend" name="manualtimespend" ></div>
+            </div>
+            <br>
+
+            <div class="row">
+            <div class="col-sm-4" style="padding-left:12px;" ><label class="form-check-label" style="font-size:11px;padding-left:0px;">Bot time taken in mins :</label></div>
+            <div class="col-sm-4" style="padding-left:0px;" ><input class="form-check-input" style="width:100px;padding-left:0px;font-size:12px;height:25px;" id="automationtimespend" name="automationtimespend" ></div>
+            </div>
+
+            <br>
+
+                <div class="row">
+                    <label class="col-form-label" style="font-size:12px;">Activity Type :</label>
+                    <div class="form-check" style="padding-left:185px;">
+                        <!--<input class="form-check-input" type="radio" name="activity" id="daily" value="daily">-->
+                        <input class="form-check-input" type="radio" id="daily" name="activity" value="daily">
+                        <label class="form-check-label" style="font-size:11px;">Daily</label>
+                    </div>
+                    <div class="form-check" style="padding-left:185px;">
+                        <!--<input class="form-check-input" type="radio" name="activity" id="weekly" value="weekly">-->
+                        <input class="form-check-input" type="radio" id="weekly" name="activity" value="weekly">
+                        <label class="form-check-label" style="font-size:11px;">Weekly</label>
+                    </div>
+                    <div class="form-check" style="padding-left:185px;">
+                        <!--<input class="form-check-input" type="radio" name="activity" id="monthly" value="monthly">-->
+                        <input class="form-check-input" type="radio" id="monthly" name="activity" value="monthly">
+                        <label class="form-check-label" style="font-size:11px;">Monthly</label>
+                    </div>
+                    <div class="form-check" style="padding-left:185px;">
+                        <!--<input class="form-check-input" type="radio" name="activity" id="quarterly" value="quarterly">-->
+                        <input class="form-check-input" type="radio" id="quarterly" name="activity" value="quarterly">
+                        <label class="form-check-label" style="font-size:11px;">Quarterly</label>
+                    </div>
+                </div>
+
+            <div class="modal-footer">
+                <button type="button"  id="submitBtn" class="btn btn-primary">Calculate</button>
+            </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+
+</html>
