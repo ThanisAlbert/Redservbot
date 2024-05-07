@@ -16,6 +16,7 @@ from urllib.parse import quote
 import requests
 
 
+
 import xlwt
 from django.db import connection
 from django.db.models import Q, IntegerField, Max
@@ -33,11 +34,13 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 from django.utils.dateparse import parse_date
-import logging
+
 import pyodbc
+import logging
+logger = logging.getLogger('django')
 
 import pandas as pd
-logger = logging.getLogger(__name__)
+
 from .tasks import mail_admin
 
 
@@ -1782,15 +1785,24 @@ def botMonitor(request):
 #=============================Index================================================
 
 def login(request):
+    #external_url = "http://172.24.3.13:88/"  # Replace with the actual URL
+    #return redirect(external_url)
+    try:
+        logger.info(str("last logged in at ") + str(datetime.datetime.now()))
+    except Exception as e:
+        print (e)
+
     return render(request, 'bot/login.html')
 
+def botview(request):
+    return render(request, 'bot/botview.html')
 
 def loginProcess(request):
     username = request.POST["username"]
     password = request.POST["pass"]
 
     if str(username).upper() == "BOT" and str(password).upper() == "BOT":
-        return redirect('bot:index')
+        return redirect('bot:botviewquery')
         #request.session["loginvar"] = "allow"
     else:
         return redirect('bot:login')
@@ -2730,8 +2742,6 @@ def downloadreport(request):
 
     if session_var == "allow":
 
-    #if request.session["loginvar"] == "allow":
-
         from_date = request.POST["fromdatenew"]
         to_date = request.POST["todatenew"]
 
@@ -2745,40 +2755,32 @@ def downloadreport(request):
         else:
             to_date=(datetime.datetime.strptime(str(to_date), "%d/%m/%Y").strftime("%Y-%m-%d"))
 
-        selected_options = request.POST.getlist('hiddenInput')
+        selected_options = list(request.POST.getlist('hiddenInput'))
 
         if from_date=="":
 
-            if len(selected_options[0])>0:
-                if "All" in selected_options:
-                    my_queryset = TicketTrackingTable.objects.filter(projecttype='Automation').order_by('projectno')
-                    #my_queryset = Bot.objects.filter(Q(Startdate__range=(from_date, to_date)) | Q(
-                    #    enhancestartdate__range=(from_date, to_date))).order_by('Botno')
+           my_queryset = TicketTrackingTable.objects.filter(projecttype='Automation').order_by('projectno')
 
-                else:
-                    my_queryset = TicketTrackingTable.objects.filter(status__in=selected_options,projecttype='Automation').order_by('projectno')
-                    #my_queryset = Bot.objects.filter(
-                    #    Q(Startdate__range=(from_date, to_date)) | Q(enhancestartdate__range=(from_date, to_date)),
-                    #    Botstatus__in=selected_options).order_by('Botno')
-            else:
-                my_queryset = TicketTrackingTable.objects.filter(projecttype='Automation').order_by('projectno')
-                #my_queryset = Bot.objects.filter(Q(Startdate__range=(from_date, to_date)) | Q(
-                #    enhancestartdate__range=(from_date, to_date))).order_by('Botno')
         else:
 
             if len(selected_options[0])>0:
-                if "All" in selected_options:
+
+                if "New" in selected_options[0] and "Enhancement" in selected_options[0]:
                     my_queryset = TicketTrackingTable.objects.filter(
                         Q(startdate__range=(from_date, to_date)) | Q(enddate__range=(from_date, to_date)) | Q(
                             enhancestartdate__range=(from_date, to_date)) | Q(
                             enhanceenddate__range=(from_date, to_date)), projecttype='Automation').order_by(
                         'projectno')
                 else:
-                    my_queryset = TicketTrackingTable.objects.filter(
-                        Q(startdate__range=(from_date, to_date)) | Q(enddate__range=(from_date, to_date)) | Q(
-                            enhancestartdate__range=(from_date, to_date)) | Q(enhanceenddate__range=(from_date, to_date)),
-                        status__in=selected_options,projecttype='Automation').order_by('projectno')
+                    if "New" in selected_options[0]:
+                        my_queryset = TicketTrackingTable.objects.filter(
+                            Q(startdate__range=(from_date, to_date)) | Q(enddate__range=(from_date, to_date)), projecttype='Automation').order_by('projectno')
+                    else:
+                        my_queryset = TicketTrackingTable.objects.filter(
+                             Q(enhancestartdate__range=(from_date, to_date)) | Q(enhanceenddate__range=(from_date, to_date)), projecttype='Automation').order_by('projectno')
+
             else:
+
                 my_queryset = TicketTrackingTable.objects.filter(
                     Q(startdate__range=(from_date, to_date)) | Q(enddate__range=(from_date, to_date)) | Q(
                         enhancestartdate__range=(from_date, to_date)) | Q(

@@ -66,32 +66,26 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'Redservbot.urls'
 
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-
-   'formatters': {
-        'timestamp': {
-            'format': '{asctime} {levelname} {message}',
-            'style': '{',
-        },
-    },
     'handlers': {
         'file': {
-            'level': 'DEBUG',
+            'level': 'INFO',  # Change this to INFO
             'class': 'logging.FileHandler',
-            'filename': 'C:/Web/Python/Redservbot/Storage/log.log',
-            'formatter': 'timestamp'
+            'filename': 'django.log',
         },
     },
     'loggers': {
-        'botcreate': {
+        'django': {
             'handlers': ['file'],
-            'level': 'DEBUG',
+            'level': 'INFO',  # Change this to INFO
             'propagate': True,
         },
     },
 }
+
 
 
 TEMPLATES = [
